@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fillPrompt } from "../store/promptSlice";
-import { generateImg } from "../store/generateSlice";
+import { generateImg } from "../store/generateImgSlice";
 
 const Prompt = () => {
   const [userPrompt, setUserPrompt] = useState("");

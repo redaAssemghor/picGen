@@ -16,8 +16,6 @@ export async function POST(request: Request) {
         negative_prompt: "ugly, blurry, poor quality",
       },
     });
-
-    // Convert response to buffer
     const imageBuffer = await response.arrayBuffer();
 
     // Send image as response
