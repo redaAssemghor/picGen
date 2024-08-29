@@ -1,10 +1,12 @@
 import Image from "next/image";
 import ImageOutput from "./components/ImageOutput";
+import Prompt from "./components/Prompt";
+import Container from "./components/Container";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen py-2">
-      <ImageOutput />
+    <main className="">
+      <Container />
     </main>
   );
 }

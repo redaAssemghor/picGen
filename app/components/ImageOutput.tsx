@@ -1,15 +1,18 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const ImageOutput = () => {
   const [imgUrl, setImgUrl] = useState<string | null>(null);
-  const prompt = "Generate an image of a cat playing with a ball of yarn.";
+
+  const prompt = useSelector((state: RootState) => state.prompt.value);
 
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const response = await fetch("/api/fetchImg**", {
+        const response = await fetch("/api/fetchImg", {
           method: "POST",
           body: JSON.stringify({ prompt }),
         });
@@ -26,9 +29,8 @@ const ImageOutput = () => {
         console.error("Failed to fetch image:", error);
       }
     };
-
-    fetchImage();
-  }, []);
+    if (prompt) fetchImage();
+  }, [prompt]);
 
   return (
     <div>
