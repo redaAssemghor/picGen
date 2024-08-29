@@ -28,21 +28,24 @@ const Prompt = () => {
           onChange={(e) => setUserPrompt(e.target.value)}
           value={userPrompt}
         ></textarea>
-        <div className="flex justify-between mt-10">
+        <div className="flex flex-col gap-10 lg:flex-row justify-between mt-10">
           <div className="flex gap-5 mt-5">
             <label className="flex gap-2 items-center" htmlFor="">
               <input type="radio" name="negative-prompt" id="" />
               Negative prompt
             </label>
           </div>
-          <div className="flex gap-10">
+          <div className="flex flex-col lg:flex-row gap-10">
             <div className="flex gap-5">
               <button className="btn btn-outline btn-warning w-20">
                 clear
               </button>
               <button className="btn btn-outline btn-warning w-20">run</button>
             </div>
-            <button className="btn btn-outline btn-success w-60" type="submit">
+            <button
+              className="btn btn-outline btn-success lg:w-60 w-full"
+              type="submit"
+            >
               Generate
             </button>
           </div>

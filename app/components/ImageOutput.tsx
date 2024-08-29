@@ -33,11 +33,17 @@ const ImageOutput = () => {
   }, [prompt]);
 
   return (
-    <div>
+    <div className="m-4 flex justify-center items-center h-full">
       {imgUrl ? (
-        <Image src={imgUrl} alt="image" width={500} height={500} />
+        <Image
+          className="w-[400] rounded-lg"
+          src={imgUrl}
+          alt="image"
+          width={500}
+          height={500}
+        />
       ) : (
-        <p>Loading...</p>
+        <span className="loading loading-dots loading-lg"></span>
       )}
     </div>
   );

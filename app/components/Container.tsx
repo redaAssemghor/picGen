@@ -9,7 +9,7 @@ const Container = () => {
     (state: RootState) => state.generateImg.var1
   );
   return (
-    <div className="p-5">
+    <div className="p-5 overflow-hidden">
       <Prompt />
       {isGenerating && <ImageOutput />}
     </div>
