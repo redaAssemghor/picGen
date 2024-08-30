@@ -12,8 +12,8 @@ const imagesUrlSlice = createSlice({
   name: "imageUrls",
   initialState,
   reducers: {
-    addImageUrl: (state, action: PayloadAction<string>) => {
-      state.value.push(action.payload);
+    addImageUrl: (state, action: PayloadAction<any>) => {
+      state.value = action.payload;
     },
     removeImageUrl: (state, action) => {
       state.value = state.value.filter((url) => url !== action.payload);

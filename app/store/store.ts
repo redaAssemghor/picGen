@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import promptReducer from "./promptSlice";
-import generateImgReducer from "./generateImgSlice.ts";
+import imagesUrlReducer from "./imagesUrlSlice";
 
 export const store = configureStore({
   reducer: {
     prompt: promptReducer,
-    generateImg: generateImgReducer,
+    imagesArr: imagesUrlReducer,
   },
 });
 

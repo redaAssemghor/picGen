@@ -14,25 +14,23 @@ const Prompt = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(fillPrompt(userPrompt));
-    dispatch(generateImg());
   };
-  console.log(prompt);
   return (
     <div className="w-full flex flex-col gap-10">
       <h1 className="text-3xl">AI Image Generator</h1>
       <form onSubmit={handleSubmit}>
         <textarea
-          className="w-full h-40 border border-black rounded-xl p-5 focus:outline-none"
+          className="w-full h-40 border border-gray-500 bg-transparent rounded-xl p-5 focus:outline-none"
           name="prompt"
           placeholder="Description prompt"
           onChange={(e) => setUserPrompt(e.target.value)}
           value={userPrompt}
         ></textarea>
         <div className="flex flex-col gap-10 lg:flex-row justify-between mt-10">
-          <div className="flex gap-5 mt-5">
-            <label className="flex gap-2 items-center" htmlFor="">
-              <input type="radio" name="negative-prompt" id="" />
-              Negative prompt
+          <div className="form-control gap">
+            <label className="label gap-2 cursor-pointer">
+              <input type="checkbox" className="toggle" defaultChecked />
+              <span className="label-text">Negative prompt</span>
             </label>
           </div>
           <div className="flex flex-col lg:flex-row gap-10">

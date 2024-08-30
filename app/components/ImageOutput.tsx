@@ -1,47 +1,54 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { addImageUrl } from "../store/imagesUrlSlice";
 
 const ImageOutput = () => {
-  const [imgUrl, setImgUrl] = useState<string | null>(null);
-
+  const [imgUrls, setImgUrls] = useState<string[]>([]);
   const prompt = useSelector((state: RootState) => state.prompt.value);
+  const imagesArr = useSelector((state: RootState) => state.imagesArr.value);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        const response = await fetch("/api/fetchImg", {
+  const fetchImage = async () => {
+    try {
+      const requests = Array.from({ length: 4 }, () =>
+        fetch("/api/fetchImg", {
           method: "POST",
           body: JSON.stringify({ prompt }),
-        });
+        })
+      );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        console.log(response);
+      const responses = await Promise.all(requests);
 
-        const blob = await response.blob(); // Get the image as a Blob
-        const url = URL.createObjectURL(blob); // Create a local URL for the Blob
-        setImgUrl(url); // Set the local URL to the state
-      } catch (error) {
-        console.error("Failed to fetch image:", error);
-      }
-    };
-    if (prompt) fetchImage();
+      const blobs = await Promise.all(responses.map((res) => res.blob()));
+      const urls = blobs.map((blob) => URL.createObjectURL(blob));
+
+      setImgUrls(urls);
+      dispatch(addImageUrl(urls));
+    } catch (error) {
+      console.error("Failed to fetch image:", error);
+    }
+  };
+  useEffect(() => {
+    console.log(imagesArr);
+    fetchImage();
   }, [prompt]);
 
   return (
-    <div className="m-4 flex justify-center items-center h-full">
-      {imgUrl ? (
-        <Image
-          className="w-[400] rounded-lg"
-          src={imgUrl}
-          alt="image"
-          width={500}
-          height={500}
-        />
+    <div className="m-4 flex md:flex-row flex-col gap-2 w-full justify-center items-center">
+      {imgUrls.length > 0 ? (
+        imgUrls.map((url, index) => (
+          <Image
+            key={index}
+            className="rounded-lg md:w-[350px]"
+            src={url}
+            alt={`image-${index}`}
+            width={300}
+            height={300}
+          />
+        ))
       ) : (
         <span className="loading loading-dots loading-lg"></span>
       )}
