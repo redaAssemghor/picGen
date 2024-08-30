@@ -7,13 +7,13 @@ const model = "stabilityai/stable-diffusion-2";
 
 export async function POST(request: Request) {
   try {
-    const { prompt } = await request.json();
+    const { prompt, negative_prompt } = await request.json();
     // Call Hugging Face API to generate image
     const response = await hf.textToImage({
       model,
       inputs: prompt,
       parameters: {
-        negative_prompt: "ugly, blurry, poor quality",
+        negative_prompt: negative_prompt || "ugly, blurry, poor quality",
       },
     });
     const imageBuffer = await response.arrayBuffer();

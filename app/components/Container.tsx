@@ -4,7 +4,7 @@ import Prompt from "./Prompt";
 
 const Container = () => {
   return (
-    <div className="p-5 overflow-hidden">
+    <div className="m-10">
       <Prompt />
       <ImageOutput />
     </div>
