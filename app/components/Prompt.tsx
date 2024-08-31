@@ -1,9 +1,10 @@
 "use client";
-import { use, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fillPrompt } from "../store/featurs/promptSlice";
 import { setNagativePrompt } from "../store/featurs/negativePromptSlice";
+import { selectModel } from "../store/featurs/modelPickerSlice";
 
 const Prompt = () => {
   const [userPrompt, setUserPrompt] = useState("");
@@ -15,6 +16,8 @@ const Prompt = () => {
 
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.loading.value);
+  const model = useSelector((state: RootState) => state.model.value);
+  const prompt = useSelector((state: RootState) => state.prompt.value);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,17 +47,22 @@ const Prompt = () => {
     }
   };
 
+  const handelModle = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    dispatch(selectModel(value));
+  };
+
   return (
     <div className="flex flex-col gap-10">
       <div className="flex justify-between">
         <h1 className="text-3xl">AI Image Generator</h1>
 
-        <select className="select select-bordered w-full max-w-xs">
-          <option disabled selected>
-            Choose a Model
-          </option>
-          <option>Dalle 3</option>
-          <option>Stable Diffusion 2</option>
+        <select
+          onChange={handelModle}
+          className="select select-bordered w-full max-w-xs"
+        >
+          <option value={"Stable Diffusion 2"}>Stable Diffusion 2</option>
+          <option value={"dalle 3"}>Dalle 3</option>
         </select>
       </div>
       <form onSubmit={handleSubmit}>

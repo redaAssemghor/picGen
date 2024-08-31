@@ -3,6 +3,7 @@ import promptReducer from "./featurs/promptSlice";
 import imagesUrlReducer from "./featurs/imagesUrlSlice";
 import loadingReducer from "./featurs/loadingSlice";
 import nagativePromptReducer from "./featurs/negativePromptSlice";
+import modelReducer from "./featurs/modelPickerSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     imagesArr: imagesUrlReducer,
     loading: loadingReducer,
     negativePrompts: nagativePromptReducer,
+    model: modelReducer,
   },
 });
 

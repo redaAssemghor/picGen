@@ -4,7 +4,7 @@ interface loadingState {
   value: boolean;
 }
 
-const initialState = {
+const initialState: loadingState = {
   value: false,
 };
 

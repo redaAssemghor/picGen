@@ -10,6 +10,7 @@ const ImageOutput = () => {
   const prompt = useSelector((state: RootState) => state.prompt.value);
   const imagesArr = useSelector((state: RootState) => state.imagesArr.value);
   const loadingState = useSelector((state: RootState) => state.loading.value);
+  const model = useSelector((state: RootState) => state.model.value);
   const negativePrompt = useSelector(
     (state: RootState) => state.negativePrompts.value
   );
@@ -39,9 +40,9 @@ const ImageOutput = () => {
     }
   };
   useEffect(() => {
-    console.log(imagesArr);
-    if (prompt !== "") {
+    if (prompt !== "" && model === "Stable Diffusion 2") {
       fetchImage();
+      console.log(imagesArr);
     }
   }, [prompt]);
 
