@@ -40,8 +40,9 @@ const ImageOutput = () => {
   };
   useEffect(() => {
     console.log(imagesArr);
-    console.log(negativePrompt);
-    fetchImage();
+    if (prompt !== "") {
+      fetchImage();
+    }
   }, [prompt]);
 
   return (

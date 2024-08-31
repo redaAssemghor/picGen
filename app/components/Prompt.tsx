@@ -7,7 +7,9 @@ import { setNagativePrompt } from "../store/featurs/negativePromptSlice";
 
 const Prompt = () => {
   const [userPrompt, setUserPrompt] = useState("");
-  const [userNegativePrompt, setUserNegativePrompt] = useState("");
+  const [userNegativePrompt, setUserNegativePrompt] = useState(
+    "ugly, blurry, poor quality"
+  );
   const [negativePrompt, setNegativePrompt] = useState(false);
   const [run, setRun] = useState(false);
 
@@ -44,7 +46,17 @@ const Prompt = () => {
 
   return (
     <div className="flex flex-col gap-10">
-      <h1 className="text-3xl">AI Image Generator</h1>
+      <div className="flex justify-between">
+        <h1 className="text-3xl">AI Image Generator</h1>
+
+        <select className="select select-bordered w-full max-w-xs">
+          <option disabled selected>
+            Choose a Model
+          </option>
+          <option>Dalle 3</option>
+          <option>Stable Diffusion 2</option>
+        </select>
+      </div>
       <form onSubmit={handleSubmit}>
         <textarea
           className="w-full h-40 border border-gray-500 bg-transparent rounded-xl p-5 focus:outline-none"
