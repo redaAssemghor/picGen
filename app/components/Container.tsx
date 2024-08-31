@@ -13,7 +13,7 @@ const Container = () => {
   }, [model]);
 
   return (
-    <div className="m-10">
+    <div className="m-20 rounded-3xl p-10 bg-neutral">
       <Prompt />
       <ResultFetch />
     </div>

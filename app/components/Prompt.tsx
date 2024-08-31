@@ -21,6 +21,7 @@ const Prompt = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleClear();
     dispatch(fillPrompt(userPrompt));
     dispatch(setNagativePrompt(userNegativePrompt));
   };
