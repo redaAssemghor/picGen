@@ -6,6 +6,8 @@ import { RootState } from "../store/store";
 import { addImageUrl } from "../store/featurs/imagesUrlSlice";
 import { ToggleLoading } from "../store/featurs/loadingSlice";
 import { HiChatBubbleBottomCenterText } from "react-icons/hi2";
+import { FaDownload, FaRegStar } from "react-icons/fa";
+import Link from "next/link";
 
 const ImageOutput = () => {
   const prompt = useSelector((state: RootState) => state.prompt.value);
@@ -18,10 +20,19 @@ const ImageOutput = () => {
 
   const dispatch = useDispatch();
 
+  const handleDownload = (url: string) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `downloaded-image-${url + 1}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const fetchImage = async () => {
     try {
       dispatch(ToggleLoading());
-      const requests = Array.from({ length: 4 }, () =>
+      const requests = Array.from({ length: 1 }, () =>
         fetch("/api/fetchImg", {
           method: "POST",
           body: JSON.stringify({ prompt, negative_prompt: negativePrompt }),
@@ -29,6 +40,7 @@ const ImageOutput = () => {
       );
 
       const responses = await Promise.all(requests);
+      console.log("responsesss", responses);
 
       const blobs = await Promise.all(responses.map((res) => res.blob()));
       const urls = blobs.map((blob) => URL.createObjectURL(blob));
@@ -59,14 +71,28 @@ const ImageOutput = () => {
       <div className="flex md:flex-row flex-col gap-2 w-full justify-center items-center overflow-hidden">
         {imagesArr.map((url, index) =>
           !loadingState ? (
-            <Image
-              key={index}
-              className="rounded-lg md:w-[300px]"
-              src={url}
-              alt={`image-${index}`}
-              width={300}
-              height={300}
-            />
+            <div key={index} className="relative ">
+              <Link href={"/images"} className="custom-cursor">
+                <Image
+                  className="rounded-lg md:w-[300px]"
+                  src={url}
+                  alt={`image-${index}`}
+                  width={300}
+                  height={300}
+                />
+              </Link>
+              <div className="absolute bottom-0 right-0 flex gap-4 p-4">
+                <button className="rounded-full hover:bg-neutral p-2 duration-700">
+                  <FaRegStar size={30} color="white" />
+                </button>
+                <button
+                  onClick={() => handleDownload(url)}
+                  className="rounded-full hover:bg-neutral p-2 duration-700"
+                >
+                  <FaDownload size={30} color="white" />
+                </button>
+              </div>
+            </div>
           ) : (
             <div key={index} className="skeleton h-[350px] w-[350px]"></div>
           )
