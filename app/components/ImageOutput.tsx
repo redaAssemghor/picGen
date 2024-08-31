@@ -32,7 +32,7 @@ const ImageOutput = () => {
   const fetchImage = async () => {
     try {
       dispatch(ToggleLoading());
-      const requests = Array.from({ length: 1 }, () =>
+      const requests = Array.from({ length: 4 }, () =>
         fetch("/api/fetchImg", {
           method: "POST",
           body: JSON.stringify({ prompt, negative_prompt: negativePrompt }),
