@@ -18,17 +18,17 @@ const FullImgPage = () => {
   };
 
   const handleDownload = () => {
-    const imageUrl = imagesUrl[selectedImg]; // Get the currently selected image URL
+    const imageUrl = imagesUrl[selectedImg];
     const link = document.createElement("a");
     link.href = imageUrl;
-    link.download = `downloaded-image-${selectedImg + 1}.jpg`; // Customize the filename
+    link.download = `downloaded-image-${selectedImg + 1}.jpg`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   return (
-    <div className="lg:flex">
+    <div className="lg:flex h-screen">
       <div className="relative flex flex-col gap-4 justify-center items-center p-5 lg:w-2/3">
         {/* Blurred Background Element */}
         <div className="absolute inset-0 bg-secondary-content blur-3xl z-0"></div>
@@ -62,14 +62,13 @@ const FullImgPage = () => {
         </div>
       </div>
 
-      <div className="relative bg-black flex-grow">
+      <div className="relative bg-black flex-grow m-auto lg:m-0">
         <div className="m-5">
           <div className="flex gap-6">
             <button className="rounded-full hover:bg-neutral p-2 duration-700">
               <FaRegStar size={20} color="white" />
             </button>
 
-            {/* Download Button */}
             <button
               className="rounded-full hover:bg-neutral p-2 duration-700"
               onClick={handleDownload}
@@ -86,7 +85,7 @@ const FullImgPage = () => {
             </button>
           </div>
 
-          <div className="my-[100px]">
+          <div className="lg:my-[100px] py-5">
             <h1 className="font-semibold text-xl">Prompt</h1>
             <p className="text-sm py-3 text-gray-500">{prompt}</p>
           </div>

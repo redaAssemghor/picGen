@@ -16,8 +16,6 @@ const Prompt = () => {
 
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.loading.value);
-  const model = useSelector((state: RootState) => state.model.value);
-  const prompt = useSelector((state: RootState) => state.prompt.value);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,10 +104,10 @@ const Prompt = () => {
               </button>
               <button
                 onClick={handleRun}
-                className="btn btn-outline btn-warning w-20"
+                className="btn btn-outline btn-warning"
               >
                 {!run ? (
-                  "run"
+                  "AI Prompt"
                 ) : (
                   <span className="loading loading-spinner text-warning"></span>
                 )}
