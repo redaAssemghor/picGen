@@ -5,6 +5,7 @@ import { RootState } from "../store/store";
 import { fillPrompt } from "../store/featurs/promptSlice";
 import { setNagativePrompt } from "../store/featurs/negativePromptSlice";
 import { selectModel } from "../store/featurs/modelPickerSlice";
+import { TbStack3 } from "react-icons/tb";
 
 const Prompt = () => {
   const [userPrompt, setUserPrompt] = useState("");
@@ -111,6 +112,11 @@ const Prompt = () => {
                 ) : (
                   <span className="loading loading-spinner text-warning"></span>
                 )}
+              </button>
+
+              <button className="flex justify-center items-center gap-1 p-2 rounded-xl bg-base-200">
+                <TbStack3 />
+                38 remaining
               </button>
             </div>
             <button

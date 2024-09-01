@@ -1,4 +1,10 @@
-import Image from "next/image";
+import {
+  SignedIn,
+  SignedOut,
+  SignIn,
+  SignInButton,
+  UserButton,
+} from "@clerk/nextjs";
 
 const Header = () => {
   return (
@@ -7,12 +13,9 @@ const Header = () => {
         <div className="flex-1">
           <a className="btn btn-ghost text-2xl">PicGen</a>
         </div>
-        <div className="flex-none">
+        <div className="">
           <ul className="menu menu-horizontal px-1">
-            <li>
-              <a>login</a>
-            </li>
-            <li>
+            {/* <li>
               <details>
                 <summary>Parent</summary>
                 <ul className="bg-base-100 rounded-t-none p-2">
@@ -24,6 +27,17 @@ const Header = () => {
                   </li>
                 </ul>
               </details>
+            </li> */}
+
+            <li>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </li>
+            <li>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
             </li>
           </ul>
         </div>
