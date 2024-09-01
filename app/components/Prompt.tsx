@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fillPrompt } from "../store/featurs/promptSlice";
@@ -14,7 +14,7 @@ const Prompt = () => {
   );
   const [negativePrompt, setNegativePrompt] = useState(false);
   const [run, setRun] = useState(false);
-  const [points, setPoints] = useState(50);
+  const [points, setPoints] = useState(null);
 
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.loading.value);
@@ -52,6 +52,22 @@ const Prompt = () => {
     const value = e.target.value;
     dispatch(selectModel(value));
   };
+
+  //fetchin points
+  useEffect(() => {
+    const fetchUser = async () => {
+      await fetch("/api/points")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+
+          setPoints(data.points);
+        })
+        .catch((err) => console.log(err));
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <div className="flex flex-col gap-10">

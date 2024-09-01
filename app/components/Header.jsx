@@ -1,10 +1,45 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import CreateUser from "./CreateUser";
+"use client";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  useAuth,
+  UserButton,
+} from "@clerk/nextjs";
+import { useEffect } from "react";
 
 const Header = () => {
+  const { isSignedIn } = useAuth();
+
+  useEffect(() => {
+    const addUser = async () => {
+      if (isSignedIn) {
+        try {
+          const response = await fetch("/api/createUser", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              points: 60,
+            }),
+          });
+          if (!response.ok) {
+            throw new Error("Failed to create user");
+          }
+
+          const data = await response.json();
+          console.log(data.message);
+        } catch (error) {
+          return console.log(error);
+        }
+      }
+    };
+    addUser();
+  }, [isSignedIn]);
+
   return (
     <div className="mx-20">
-      <CreateUser />
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <a className="btn btn-ghost text-2xl">PicGen</a>

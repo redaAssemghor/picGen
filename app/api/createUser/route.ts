@@ -20,8 +20,10 @@ export async function POST(req: NextRequest) {
 
     if (!existingUser) {
       // Create a new user
-      await prisma.user.create({
-        data: {
+      await prisma.user.upsert({
+        where: { id: userId },
+        update: { points },
+        create: {
           id: userId,
           points,
         },
