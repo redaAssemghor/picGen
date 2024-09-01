@@ -1,14 +1,10 @@
-import {
-  SignedIn,
-  SignedOut,
-  SignIn,
-  SignInButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import CreateUser from "./CreateUser";
 
 const Header = () => {
   return (
     <div className="mx-20">
+      <CreateUser />
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <a className="btn btn-ghost text-2xl">PicGen</a>

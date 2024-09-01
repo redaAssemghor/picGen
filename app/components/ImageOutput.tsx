@@ -40,7 +40,6 @@ const ImageOutput = () => {
       );
 
       const responses = await Promise.all(requests);
-      console.log("responsesss", responses);
 
       const blobs = await Promise.all(responses.map((res) => res.blob()));
       const urls = blobs.map((blob) => URL.createObjectURL(blob));

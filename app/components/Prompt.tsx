@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fillPrompt } from "../store/featurs/promptSlice";
@@ -14,6 +14,7 @@ const Prompt = () => {
   );
   const [negativePrompt, setNegativePrompt] = useState(false);
   const [run, setRun] = useState(false);
+  const [points, setPoints] = useState(50);
 
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.loading.value);
@@ -116,7 +117,7 @@ const Prompt = () => {
 
               <button className="flex justify-center items-center gap-1 p-2 rounded-xl bg-base-200">
                 <TbStack3 />
-                38 remaining
+                {points} remaining
               </button>
             </div>
             <button
