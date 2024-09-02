@@ -50,21 +50,21 @@ const ImageOutput = () => {
       const urls = blobs.map((blob) => URL.createObjectURL(blob));
 
       dispatch(addImageUrl(urls));
-      // if (points > 4) await handleDecrement();
+      if (points > 4) await handleDecrement();
     } catch (error) {
       console.error("Failed to fetch image:", error);
     } finally {
       dispatch(stopLoading());
     }
   };
-  // const handleDecrement = async () => {
-  //   try {
-  //     const updatedPoints = await updateUserPoints(4);
-  //     dispatch(updatePoints(updatedPoints));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const handleDecrement = async () => {
+    try {
+      const updatedPoints = await updateUserPoints(4);
+      dispatch(updatePoints(updatedPoints));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     if (prompt !== "") {
       fetchImage();
