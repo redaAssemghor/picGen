@@ -12,16 +12,16 @@ import { useDispatch } from "react-redux";
 import { updatePoints } from "../store/featurs/pointsSlice";
 
 const Header = () => {
-  const { isSignedIn } = useAuth();
-  const dispatch = useDispatch();
+  // const { isSignedIn } = useAuth();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (isSignedIn) addUser(isSignedIn);
+  // useEffect(() => {
+  //   if (isSignedIn) addUser(isSignedIn);
 
-    fetchUser().then((data) => {
-      dispatch(updatePoints(data.points));
-    });
-  }, []);
+  //   fetchUser().then((data) => {
+  //     dispatch(updatePoints(data.points));
+  //   });
+  // }, [isSignedIn, dispatch]);
 
   return (
     <div className="mx-20">
