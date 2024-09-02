@@ -15,8 +15,15 @@ const loadingSlice = createSlice({
     ToggleLoading: (state) => {
       state.value = !state.value;
     },
+    startLoading: (state) => {
+      state.value = true;
+    },
+    stopLoading: (state) => {
+      state.value = false;
+    },
   },
 });
 
-export const { ToggleLoading } = loadingSlice.actions;
+export const { ToggleLoading, startLoading, stopLoading } =
+  loadingSlice.actions;
 export default loadingSlice.reducer;

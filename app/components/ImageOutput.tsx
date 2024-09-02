@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { addImageUrl } from "../store/featurs/imagesUrlSlice";
-import { ToggleLoading } from "../store/featurs/loadingSlice";
+import { startLoading, stopLoading } from "../store/featurs/loadingSlice";
 import { HiChatBubbleBottomCenterText } from "react-icons/hi2";
 import { FaDownload, FaRegStar } from "react-icons/fa";
 import Link from "next/link";
@@ -15,17 +15,17 @@ const ImageOutput = () => {
   const prompt = useSelector((state: RootState) => state.prompt.value);
   const imagesArr = useSelector((state: RootState) => state.imagesArr.value);
   const loadingState = useSelector((state: RootState) => state.loading.value);
-  const model = useSelector((state: RootState) => state.model.value);
+  const points = useSelector((state: RootState) => state.points.value);
   const negativePrompt = useSelector(
     (state: RootState) => state.negativePrompts.value
   );
 
   const dispatch = useDispatch();
 
-  const handleDownload = (url: string) => {
+  const handleDownload = (url: string, index: number) => {
     const link = document.createElement("a");
     link.href = url;
-    link.download = `downloaded-image-${url + 1}.jpg`;
+    link.download = `downloaded-image-${index + 1}.jpg`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -33,10 +33,13 @@ const ImageOutput = () => {
 
   const fetchImage = async () => {
     try {
-      dispatch(ToggleLoading());
+      dispatch(startLoading());
       const requests = Array.from({ length: 4 }, () =>
         fetch("/api/fetchImg", {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ prompt, negative_prompt: negativePrompt }),
         })
       );
@@ -47,21 +50,29 @@ const ImageOutput = () => {
       const urls = blobs.map((blob) => URL.createObjectURL(blob));
 
       dispatch(addImageUrl(urls));
+      if (points > 4) await handleDecrement();
     } catch (error) {
       console.error("Failed to fetch image:", error);
     } finally {
-      dispatch(ToggleLoading());
+      dispatch(stopLoading());
     }
   };
   const handleDecrement = async () => {
-    const updatedPoints = await updateUserPoints(4);
-    dispatch(updatePoints(updatedPoints));
+    try {
+      const updatedPoints = await updateUserPoints(4);
+      dispatch(updatePoints(updatedPoints));
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     if (prompt !== "") {
       fetchImage();
-      handleDecrement();
     }
+
+    return () => {
+      dispatch(stopLoading());
+    };
   }, [prompt]);
 
   return (
@@ -91,7 +102,7 @@ const ImageOutput = () => {
                   <FaRegStar size={30} color="white" />
                 </button>
                 <button
-                  onClick={() => handleDownload(url)}
+                  onClick={() => handleDownload(url, index)}
                   className="rounded-full hover:bg-neutral p-2 duration-700"
                 >
                   <FaDownload size={30} color="white" />

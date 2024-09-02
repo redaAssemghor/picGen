@@ -6,8 +6,6 @@ import { fillPrompt } from "../store/featurs/promptSlice";
 import { setNagativePrompt } from "../store/featurs/negativePromptSlice";
 import { selectModel } from "../store/featurs/modelPickerSlice";
 import { TbStack3 } from "react-icons/tb";
-import { updateUserPoints } from "../lib/userApi";
-import { updatePoints } from "../store/featurs/pointsSlice";
 
 const Prompt = () => {
   const [userPrompt, setUserPrompt] = useState("");
@@ -20,11 +18,6 @@ const Prompt = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.loading.value);
   const points = useSelector((state: RootState) => state.points.value);
-
-  const handleDecrement = async () => {
-    const updatedPoints = await updateUserPoints(4);
-    dispatch(updatePoints(updatedPoints));
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
