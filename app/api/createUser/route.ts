@@ -3,16 +3,18 @@ import { getAuth } from "@clerk/nextjs/server";
 import prisma from "@/prisma";
 
 export async function POST(req: NextRequest) {
-  const { userId } = getAuth(req);
-
-  if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
+    const { userId } = getAuth(req);
+    if (!userId) {
+      console.log("Unauthorized access attempt");
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { points } = await req.json();
+    console.log("Parsed points:", points);
 
     if (typeof points !== "number") {
+      console.log("Invalid points value:", points);
       return NextResponse.json(
         { error: "Invalid points value" },
         { status: 400 }
@@ -28,7 +30,7 @@ export async function POST(req: NextRequest) {
           points,
         },
       });
-
+      console.log("User created or updated successfully");
       return NextResponse.json(
         { message: "User created or updated successfully" },
         { status: 201 }
@@ -41,7 +43,7 @@ export async function POST(req: NextRequest) {
       );
     }
   } catch (error) {
-    console.error("Error parsing request body:", error);
+    console.error("Error in /api/createUser route:", error);
     return NextResponse.json({ error: "Bad Request" }, { status: 400 });
   }
 }
