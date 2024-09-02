@@ -7,36 +7,21 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { useEffect } from "react";
+import { addUser, fetchUser } from "../lib/userApi";
+import { useDispatch } from "react-redux";
+import { updatePoints } from "../store/featurs/pointsSlice";
 
 const Header = () => {
   const { isSignedIn } = useAuth();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const addUser = async () => {
-      if (isSignedIn) {
-        try {
-          const response = await fetch("/api/createUser", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              points: 60,
-            }),
-          });
-          if (!response.ok) {
-            throw new Error("Failed to create user");
-          }
+    if (isSignedIn) addUser(isSignedIn);
 
-          const data = await response.json();
-          console.log(data.message);
-        } catch (error) {
-          return console.log(error);
-        }
-      }
-    };
-    addUser();
-  }, [isSignedIn]);
+    fetchUser().then((data) => {
+      dispatch(updatePoints(data.points));
+    });
+  }, []);
 
   return (
     <div className="mx-20">

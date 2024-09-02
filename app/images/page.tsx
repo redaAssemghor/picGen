@@ -47,7 +47,7 @@ const FullImgPage = () => {
           <div className="flex gap-3">
             {imagesUrl.map((img, i) => (
               <Image
-                className={`hover:opacity-100 duration-700 rounded-xl ${
+                className={`hover:opacity-100 duration-700 rounded-xl cursor-pointer ${
                   i === selectedImg ? "opacity-100" : "opacity-30"
                 }`}
                 onClick={() => setSelectedImg(i)}

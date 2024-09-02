@@ -1,11 +1,13 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fillPrompt } from "../store/featurs/promptSlice";
 import { setNagativePrompt } from "../store/featurs/negativePromptSlice";
 import { selectModel } from "../store/featurs/modelPickerSlice";
 import { TbStack3 } from "react-icons/tb";
+import { updateUserPoints } from "../lib/userApi";
+import { updatePoints } from "../store/featurs/pointsSlice";
 
 const Prompt = () => {
   const [userPrompt, setUserPrompt] = useState("");
@@ -14,10 +16,15 @@ const Prompt = () => {
   );
   const [negativePrompt, setNegativePrompt] = useState(false);
   const [run, setRun] = useState(false);
-  const [points, setPoints] = useState(null);
 
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.loading.value);
+  const points = useSelector((state: RootState) => state.points.value);
+
+  const handleDecrement = async () => {
+    const updatedPoints = await updateUserPoints(4);
+    dispatch(updatePoints(updatedPoints));
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,7 +47,6 @@ const Prompt = () => {
         },
       });
       const data = await response.json();
-      console.log(data);
       setUserPrompt(data);
       setRun(false);
     } catch (error) {
@@ -52,22 +58,6 @@ const Prompt = () => {
     const value = e.target.value;
     dispatch(selectModel(value));
   };
-
-  //fetchin points
-  useEffect(() => {
-    const fetchUser = async () => {
-      await fetch("/api/points")
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-
-          setPoints(data.points);
-        })
-        .catch((err) => console.log(err));
-    };
-
-    fetchUser();
-  }, []);
 
   return (
     <div className="flex flex-col gap-10">
@@ -122,7 +112,7 @@ const Prompt = () => {
               </button>
               <button
                 onClick={handleRun}
-                className="btn btn-outline btn-warning"
+                className="btn btn-outline btn-warning w-30"
               >
                 {!run ? (
                   "AI Prompt"

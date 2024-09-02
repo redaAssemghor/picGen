@@ -8,6 +8,8 @@ import { ToggleLoading } from "../store/featurs/loadingSlice";
 import { HiChatBubbleBottomCenterText } from "react-icons/hi2";
 import { FaDownload, FaRegStar } from "react-icons/fa";
 import Link from "next/link";
+import { updateUserPoints } from "../lib/userApi";
+import { updatePoints } from "../store/featurs/pointsSlice";
 
 const ImageOutput = () => {
   const prompt = useSelector((state: RootState) => state.prompt.value);
@@ -51,10 +53,14 @@ const ImageOutput = () => {
       dispatch(ToggleLoading());
     }
   };
+  const handleDecrement = async () => {
+    const updatedPoints = await updateUserPoints(4);
+    dispatch(updatePoints(updatedPoints));
+  };
   useEffect(() => {
     if (prompt !== "") {
       fetchImage();
-      console.log(imagesArr);
+      handleDecrement();
     }
   }, [prompt]);
 
