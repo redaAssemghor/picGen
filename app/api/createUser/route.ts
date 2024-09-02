@@ -6,20 +6,22 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   const { userId } = getAuth(req);
-  const { points } = await req.json();
 
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { id: userId },
-    });
+    const { points } = await req.json();
 
-    if (!existingUser) {
-      // Create a new user
+    if (typeof points !== "number") {
+      return NextResponse.json(
+        { error: "Invalid points value" },
+        { status: 400 }
+      );
+    }
+
+    try {
       await prisma.user.upsert({
         where: { id: userId },
         update: { points },
@@ -28,17 +30,20 @@ export async function POST(req: NextRequest) {
           points,
         },
       });
-    }
 
-    return NextResponse.json(
-      { message: "User created successfully" },
-      { status: 201 }
-    );
+      return NextResponse.json(
+        { message: "User created or updated successfully" },
+        { status: 201 }
+      );
+    } catch (error) {
+      console.error("Error upserting user:", error);
+      return NextResponse.json(
+        { error: "Internal Server Error" },
+        { status: 500 }
+      );
+    }
   } catch (error) {
-    console.error("Error creating user:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    console.error("Error parsing request body:", error);
+    return NextResponse.json({ error: "Bad Request" }, { status: 400 });
   }
 }
