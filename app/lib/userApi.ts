@@ -1,3 +1,4 @@
+"use client";
 export const addUser = async (isSignedIn: boolean) => {
   if (isSignedIn) {
     try {
