@@ -6,6 +6,7 @@ import nagativePromptReducer from "./featurs/negativePromptSlice";
 import modelReducer from "./featurs/modelPickerSlice";
 import imageReducer from "./featurs/imageSlice";
 import pointsReducer from "./featurs/pointsSlice";
+import idReducer from "./featurs/idSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     model: modelReducer,
     image: imageReducer,
     points: pointsReducer,
+    id: idReducer,
   },
 });
 

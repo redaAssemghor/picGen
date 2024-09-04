@@ -1,28 +1,6 @@
-"use client";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  useAuth,
-  UserButton,
-} from "@clerk/nextjs";
-import { useEffect } from "react";
-import { addUser, fetchUser } from "../lib/userApi";
-import { useDispatch } from "react-redux";
-import { updatePoints } from "../store/featurs/pointsSlice";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 const Header = () => {
-  // const { isSignedIn } = useAuth();
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (isSignedIn) addUser(isSignedIn);
-
-  //   fetchUser().then((data) => {
-  //     dispatch(updatePoints(data.points));
-  //   });
-  // }, [isSignedIn, dispatch]);
-
   return (
     <div className="mx-20">
       <div className="navbar bg-base-100">
