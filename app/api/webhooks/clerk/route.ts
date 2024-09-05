@@ -1,10 +1,17 @@
-import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { WebhookEvent } from "@clerk/nextjs/server";
-import prisma from "@/prisma";
+import { Webhook } from "svix";
+import prisma from "@/prisma"; // Adjust the import according to your project structure
+
+interface ClerkEvent {
+  data: {
+    id: string;
+    [key: string]: any; // Add other fields as necessary
+  };
+  object: string;
+  type: string;
+}
 
 export async function POST(req: Request) {
-  // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
@@ -13,75 +20,70 @@ export async function POST(req: Request) {
     );
   }
 
-  // Get the headers
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
 
-  // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Error occurred -- no svix headers", {
-      status: 400,
-    });
+    console.error("Missing svix headers");
+    return new Response("Error occurred -- no svix headers", { status: 400 });
   }
 
-  // Get the body
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
-  // Create a new Svix instance with your secret.
   const wh = new Webhook(WEBHOOK_SECRET);
+  let evt: ClerkEvent;
 
-  let evt: WebhookEvent;
-
-  // Verify the payload with the headers
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
-    }) as WebhookEvent;
+    }) as ClerkEvent;
   } catch (err) {
-    console.error("Error verifying webhook:", err);
-    return new Response("Error occurred", {
-      status: 400,
-    });
+    console.error("Webhook verification failed:", err);
+    return new Response("Webhook verification failed", { status: 400 });
   }
 
-  // Do something with the payload
+  console.log("Webhook event received:", evt);
+
   const eventType = evt.type;
   if (eventType === "user.created") {
     console.log("User created event received");
 
-    const { id } = evt.data;
-
-    if (!id) {
-      console.error("User ID is missing in the event data");
-      return new Response("Bad Request", { status: 400 });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: {
-        clerkId: id,
-      },
-    });
-
-    if (!user) {
-      try {
-        const dbUser = await prisma.user.create({
-          data: {
+    try {
+      const { id } = evt.data;
+      if (id) {
+        const user = await prisma.user.findUnique({
+          where: {
             clerkId: id,
-            points: 60,
           },
         });
-        console.log("User created in database:", dbUser);
-      } catch (error) {
-        console.error("Error creating user in database:", error);
-        return new Response("Internal Server Error", { status: 500 });
+
+        if (!user) {
+          try {
+            const dbUser = await prisma.user.create({
+              data: {
+                clerkId: id,
+                points: 60,
+              },
+            });
+            console.log("User created in database:", dbUser);
+          } catch (error) {
+            console.error("Error creating user in database:", error);
+            return new Response("Internal Server Error", { status: 500 });
+          }
+        } else {
+          console.log("User already exists in the database");
+        }
+      } else {
+        console.error("User ID is missing in the event data");
       }
-    } else {
-      console.log("User already exists in the database");
+    } catch (error) {
+      console.error("Error processing user.created event:", error);
+      return new Response("Internal Server Error", { status: 500 });
     }
   }
 
