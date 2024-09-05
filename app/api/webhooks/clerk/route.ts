@@ -1,41 +1,35 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "@/app/lib/actions/action";
+import prisma from "../../../lib/prisma";
 
 export async function POST(req: Request) {
-  // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
-    throw new Error(
-      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
-    );
+    console.error("Missing WEBHOOK_SECRET environment variable");
+    return new Response("Webhook secret is missing", { status: 500 });
   }
 
-  // Get the headers
+  // Retrieve Svix headers
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
 
-  // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Error occured -- no svix headers", {
-      status: 400,
-    });
+    console.error("Missing Svix headers");
+    return new Response("Missing required Svix headers", { status: 400 });
   }
 
-  // Get the body
+  // Get the body of the request
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
-  // Create a new Svix instance with your secret.
   const wh = new Webhook(WEBHOOK_SECRET);
-
   let evt: WebhookEvent;
 
-  // Verify the payload with the headers
+  // Verify the webhook signature
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
@@ -44,21 +38,36 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error("Error verifying webhook:", err);
-    return new Response("Error occured", {
-      status: 400,
-    });
+    return new Response("Webhook verification failed", { status: 400 });
   }
 
-  // Do something with the payload
-  const eventType = evt.type;
-  if (eventType === "user.created") {
+  // Handle the "user.created" event
+  if (evt.type === "user.created") {
     console.log("User created event received");
 
     const { id } = evt.data;
     if (id) {
-      createUser({ id });
+      try {
+        await prisma.user.create({
+          data: {
+            clerkId: id,
+            points: 300,
+          },
+        });
+        console.log("User created successfully in the database");
+        return new Response("User created", { status: 201 });
+      } catch (error) {
+        console.error("Error creating user in database:", error);
+        return new Response("Failed to create user in the database", {
+          status: 500,
+        });
+      }
+    } else {
+      console.error("No user ID in the webhook event data");
+      return new Response("No user ID provided in the event", { status: 400 });
     }
   }
 
-  return new Response("", { status: 200 });
+  // If the event is not "user.created"
+  return new Response("Event not handled", { status: 200 });
 }
