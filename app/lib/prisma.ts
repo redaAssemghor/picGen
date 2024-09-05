@@ -1,16 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 
-const prismaClientSingleton = () => {
-  return new PrismaClient();
-};
-
-// Extend globalThis to include the custom property for Prisma client
+// Ensure PrismaClient is singleton in a serverless environment
 declare global {
-  var prismaGlobal: PrismaClient | undefined;
+  var prisma: PrismaClient | undefined;
 }
 
-const prisma = global.prismaGlobal ?? prismaClientSingleton();
+const prisma = global.prisma || new PrismaClient();
 
-if (process.env.NODE_ENV !== "production") global.prismaGlobal = prisma;
+if (process.env.NODE_ENV !== "production") global.prisma = prisma;
 
 export default prisma;
