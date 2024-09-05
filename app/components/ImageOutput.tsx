@@ -8,7 +8,6 @@ import { startLoading, stopLoading } from "../store/featurs/loadingSlice";
 import { HiChatBubbleBottomCenterText } from "react-icons/hi2";
 import { FaDownload, FaRegStar } from "react-icons/fa";
 import Link from "next/link";
-import { updatePoints } from "../store/featurs/pointsSlice";
 
 const ImageOutput = () => {
   const prompt = useSelector((state: RootState) => state.prompt.value);
@@ -49,21 +48,13 @@ const ImageOutput = () => {
       const urls = blobs.map((blob) => URL.createObjectURL(blob));
 
       dispatch(addImageUrl(urls));
-      if (points > 4) await handleDecrement();
     } catch (error) {
       console.error("Failed to fetch image:", error);
     } finally {
       dispatch(stopLoading());
     }
   };
-  const handleDecrement = async () => {
-    // try {
-    //   const updatedPoints = await updateUserPoints(4);
-    //   dispatch(updatePoints(updatedPoints));
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  };
+
   useEffect(() => {
     if (prompt !== "") {
       fetchImage();
