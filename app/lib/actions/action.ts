@@ -1,4 +1,4 @@
-import prisma from "@/prisma";
+import prisma from "../prisma";
 
 export const createUser = async ({ id }: { id: string }) => {
   try {
