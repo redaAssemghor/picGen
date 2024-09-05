@@ -2,9 +2,14 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 // Match all routes except the root `/`
 const isProtectedRoute = createRouteMatcher(["(/generatePage)", "(/images)"]);
-// const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)'])
+const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)"]);
 
 export default clerkMiddleware((auth, req) => {
+  if (isPublicRoute(req)) {
+    // Allow access to public routes without authentication
+    return;
+  }
+
   if (isProtectedRoute(req)) {
     // Protect the route if it matches the defined pattern
     auth().protect();
