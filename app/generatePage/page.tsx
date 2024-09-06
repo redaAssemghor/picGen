@@ -5,10 +5,12 @@ import ResultFetch from "../components/ResultFetch";
 
 const Container = () => {
   return (
-    <div className="lg:m-20 rounded-3xl p-10 bg-neutral">
+    <div>
       <Header />
-      <Prompt />
-      <ResultFetch />
+      <div className="lg:m-20 rounded-3xl p-10 bg-neutral">
+        <Prompt />
+        <ResultFetch />
+      </div>
     </div>
   );
 };

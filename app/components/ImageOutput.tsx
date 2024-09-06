@@ -1,13 +1,15 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { addImageUrl } from "../store/featurs/imagesUrlSlice";
 import { startLoading, stopLoading } from "../store/featurs/loadingSlice";
 import { HiChatBubbleBottomCenterText } from "react-icons/hi2";
 import { FaDownload, FaRegStar } from "react-icons/fa";
+import { updatePoints } from "../store/featurs/pointsSlice";
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 
 const ImageOutput = () => {
   const prompt = useSelector((state: RootState) => state.prompt.value);
@@ -19,6 +21,7 @@ const ImageOutput = () => {
   );
 
   const dispatch = useDispatch();
+  const { userId } = useAuth();
 
   const handleDownload = (url: string, index: number) => {
     const link = document.createElement("a");
@@ -48,10 +51,29 @@ const ImageOutput = () => {
       const urls = blobs.map((blob) => URL.createObjectURL(blob));
 
       dispatch(addImageUrl(urls));
+      decrementPoints();
     } catch (error) {
       console.error("Failed to fetch image:", error);
     } finally {
       dispatch(stopLoading());
+    }
+  };
+
+  // decrement points api call
+  const decrementPoints = async () => {
+    const response = await fetch("/api/user/updatePoints", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId }),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      dispatch(updatePoints(data.points));
+      console.log(points);
+    } else {
+      console.error("Error fetching points:", data.error);
     }
   };
 

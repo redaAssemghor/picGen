@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import prisma from "../../../lib/prisma";
+import { createUser } from "@/app/lib/actions/action";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
@@ -48,12 +48,8 @@ export async function POST(req: Request) {
     const { id } = evt.data;
     if (id) {
       try {
-        await prisma.user.create({
-          data: {
-            clerkId: id,
-            points: 300,
-          },
-        });
+        await createUser({ id });
+
         console.log("User created successfully in the database");
         return new Response("User created", { status: 201 });
       } catch (error) {

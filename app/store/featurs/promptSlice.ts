@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
   value: "",
+  initialized: false,
 };
 
 const promptSlice = createSlice({
@@ -11,6 +12,9 @@ const promptSlice = createSlice({
   reducers: {
     fillPrompt(state, action: PayloadAction<string>) {
       state.value = action.payload;
+    },
+    initPrompt(state) {
+      state.initialized = !state.initialized;
     },
   },
 });

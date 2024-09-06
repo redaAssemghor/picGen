@@ -5,7 +5,8 @@ import { RootState } from "../store/store";
 import { fillPrompt } from "../store/featurs/promptSlice";
 import { setNagativePrompt } from "../store/featurs/negativePromptSlice";
 import { selectModel } from "../store/featurs/modelPickerSlice";
-import { TbStack3 } from "react-icons/tb";
+import PointsBtn from "./PointsBtn";
+import { useAuth } from "@clerk/nextjs";
 
 const Prompt = () => {
   const [userPrompt, setUserPrompt] = useState("");
@@ -17,7 +18,6 @@ const Prompt = () => {
 
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.loading.value);
-  const points = useSelector((state: RootState) => state.points.value);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,12 +54,12 @@ const Prompt = () => {
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="flex justify-between">
-        <h1 className="text-3xl">AI Image Generator</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="lg:text-3xl">AI Image Generator</h1>
 
         <select
           onChange={handelModle}
-          className="select select-bordered w-full max-w-xs"
+          className="select select-bordered lg:w-full max-w-xs"
         >
           <option value={"Stable Diffusion 2"}>Stable Diffusion 2</option>
           <option value={"dalle 3"}>Dalle 3</option>
@@ -96,29 +96,31 @@ const Prompt = () => {
             </label>
           </div>
           <div className="flex flex-col lg:flex-row gap-10">
-            <div className="flex gap-5">
-              <button
-                onClick={handleClear}
-                className="btn btn-outline btn-warning w-20"
-              >
-                clear
-              </button>
-              <button
-                onClick={handleRun}
-                className="btn btn-outline btn-warning w-30"
-              >
-                {!run ? (
-                  "AI Prompt"
-                ) : (
-                  <span className="loading loading-spinner text-warning"></span>
-                )}
-              </button>
+            <div className="flex gap-4 items-center">
+              <div className="lg:mx-10">
+                <PointsBtn />
+              </div>
 
-              <button className="flex justify-center items-center gap-1 p-2 rounded-xl bg-base-200">
-                <TbStack3 />
-                {points} remaining
-              </button>
+              <div className="flex gap-5">
+                <button
+                  onClick={handleClear}
+                  className="btn btn-outline btn-warning w-20"
+                >
+                  clear
+                </button>
+                <button
+                  onClick={handleRun}
+                  className="btn btn-outline btn-warning min-w-30"
+                >
+                  {!run ? (
+                    "AI Prompt"
+                  ) : (
+                    <span className="loading loading-spinner text-warning"></span>
+                  )}
+                </button>
+              </div>
             </div>
+
             <button
               className={`btn btn-outline btn-success lg:w-60 w-full`}
               type="submit"
