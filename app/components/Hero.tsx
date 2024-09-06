@@ -3,7 +3,7 @@ import { FaWandMagicSparkles } from "react-icons/fa6";
 
 const Hero = () => {
   return (
-    <div className="h-screen flex justify-center items-center px-4 bg-gradient-to-r from-slate-950 to-slate-600">
+    <div className="h-screen flex justify-center items-center px-4">
       <div className="text-center max-w-3xl mx-auto space-y-6">
         <h1 className="text-2xl font-extrabold tracking-widest text-gray-700">
           Unlock Your Creativity
@@ -22,7 +22,7 @@ const Hero = () => {
 
         <div className="flex justify-center">
           <Link
-            href="/generatepage"
+            href="/generatePage"
             className="px-8 py-3 flex gap-2 items-center hover:bg-base-200 rounded-full font-bold text-lg transition duration-500 ease-in-out shadow-lg"
           >
             <FaWandMagicSparkles />
