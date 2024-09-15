@@ -22,7 +22,7 @@ const Hero = () => {
 
         <div className="flex justify-center">
           <Link
-            href="/generatePage"
+            href="/generatepage"
             className="px-8 py-3 flex gap-2 items-center hover:bg-base-200 rounded-full font-bold text-lg transition duration-500 ease-in-out shadow-lg"
           >
             <FaWandMagicSparkles />
