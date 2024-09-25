@@ -40,7 +40,7 @@ const Prompt = () => {
         },
       });
       const data = await response.json();
-      setUserPrompt(data);
+      setUserPrompt(data.response);
       setRun(false);
     } catch (error) {
       console.log(error);

@@ -1,55 +1,33 @@
-// import { NextResponse } from "next/server";
-// import OpenAI from "openai";
-// const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-// export async function POST() {
-//   try {
-//     const completion = await openai.chat.completions.create({
-//       model: "gpt-3.5-turbo",
-//       messages: [
-//         { role: "system", content: "You are a helpful assistant." },
-//         {
-//           role: "user",
-//           content:
-//             "Give a creative, five-word description of an imaginary scene:",
-//         },
-//       ],
-//     });
-//     const generatedText = completion.choices[0].message.content;
-
-//     return NextResponse.json(generatedText);
-//   } catch (error) {
-//     console.error("Error during text generation:", error); // Log the error details
-
-//     return NextResponse.json(
-//       { error: "Failed to fetch image", details: error },
-//       { status: 500 }
-//     );
-//   }
-// }
-
-import { HfInference } from "@huggingface/inference";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-const hf = new HfInference(process.env.HF_ACCESS_TOKEN);
+const apiKey = process.env.GEMINI_API_KEY;
+
+if (!apiKey) {
+  throw new Error(
+    "GEMINI_API_KEY is not defined. Please set it in your environment variables."
+  );
+}
+const gemini = new GoogleGenerativeAI(apiKey);
 
 export async function POST() {
   try {
-    const out = await hf.chatCompletion({
-      model: "mistralai/Mistral-7B-Instruct-v0.2",
-      messages: [
-        {
-          role: "user",
-          content:
-            "Give a creative, five-word description of an imaginary scene:",
-        },
-      ],
-      max_tokens: 100,
-    });
-    const response = out.choices[0].message.content;
+    const prompt =
+      "Give a creative, five-word description of an imaginary scene:";
+
+    const model = gemini.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const result = await model.generateContent(prompt);
+
+    const response = result.response.text();
     console.log(response);
-    return NextResponse.json(response);
+
+    return NextResponse.json({ response });
   } catch (error) {
     console.error("Error during text generation:", error);
+
+    return NextResponse.json(
+      { error: "Failed to generate text. Please try again later." },
+      { status: 500 }
+    );
   }
 }

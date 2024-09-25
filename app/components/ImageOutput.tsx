@@ -35,7 +35,7 @@ const ImageOutput = () => {
   const fetchImage = async () => {
     try {
       dispatch(startLoading());
-      const requests = Array.from({ length: 4 }, () =>
+      const requests = Array.from({ length: 1 }, () =>
         fetch("/api/fetchImg", {
           method: "POST",
           headers: {
