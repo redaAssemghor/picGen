@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ points: user.points });
+    return NextResponse.json(user);
   } catch (error) {
     console.error("Error fetching user points:", error);
     return NextResponse.json(

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { TbStack3 } from "react-icons/tb";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { updatePoints } from "../store/featurs/pointsSlice";
@@ -14,6 +14,7 @@ const PointsBtn = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("userId", userId);
     const fetchPoints = async () => {
       if (userId) {
         try {
@@ -28,6 +29,7 @@ const PointsBtn = () => {
 
           if (response.ok) {
             dispatch(updatePoints(data.points));
+            console.log(data);
           } else {
             console.error("Error fetching points:", data.error);
           }

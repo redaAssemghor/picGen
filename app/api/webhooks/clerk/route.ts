@@ -11,7 +11,6 @@ export async function POST(req: Request) {
     return new Response("Webhook secret is missing", { status: 500 });
   }
 
-  // Retrieve Svix headers
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
@@ -22,14 +21,12 @@ export async function POST(req: Request) {
     return new Response("Missing required Svix headers", { status: 400 });
   }
 
-  // Get the body of the request
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
   const wh = new Webhook(WEBHOOK_SECRET);
   let evt: WebhookEvent;
 
-  // Verify the webhook signature
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
@@ -41,11 +38,12 @@ export async function POST(req: Request) {
     return new Response("Webhook verification failed", { status: 400 });
   }
 
-  // Handle the "user.created" event
-  if (evt.type === "session.created") {
+  if (evt.type === "user.created") {
     console.log("User created event received");
 
     const { id } = evt.data;
+    console.log("web hook", id);
+
     if (id) {
       try {
         await createUser({ id });
@@ -64,6 +62,5 @@ export async function POST(req: Request) {
     }
   }
 
-  // If the event is not "user.created"
   return new Response("Event not handled", { status: 200 });
 }
