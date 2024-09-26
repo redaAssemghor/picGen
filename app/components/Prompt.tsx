@@ -23,23 +23,6 @@ const Prompt = () => {
 
   const { userId } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Ensure userId is not null or undefined
-    if (userId) {
-      handleClear();
-      dispatch(fillPrompt(userPrompt));
-      dispatch(setNagativePrompt(userNegativePrompt));
-
-      // Call updateUserPoints only if userId is valid
-      decrementPoints();
-    } else {
-      console.error("User ID is missing or invalid");
-      // Handle the case where the userId is not available (e.g., show a message to the user)
-    }
-  };
-
   // decrement points api call
   const decrementPoints = async () => {
     const response = await fetch("/api/user/updatePoints", {
@@ -54,6 +37,18 @@ const Prompt = () => {
       dispatch(updatePoints(data.points));
     } else {
       console.error("Error fetching points:", data.error);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (userId) {
+      handleClear();
+      dispatch(fillPrompt(userPrompt));
+      dispatch(setNagativePrompt(userNegativePrompt));
+      decrementPoints();
+    } else {
+      console.error("User ID is missing or invalid");
     }
   };
 

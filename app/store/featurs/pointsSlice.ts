@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface pointsState {
   value: number;
+  enoghPoints: boolean;
 }
 
 const initialState: pointsState = {
   value: 0,
+  enoghPoints: true,
 };
 
 const pointsSlice = createSlice({
@@ -15,8 +17,11 @@ const pointsSlice = createSlice({
     updatePoints: (state, action) => {
       state.value = action.payload;
     },
+    setEnoghpoints: (state, action) => {
+      state.enoghPoints = action.payload;
+    },
   },
 });
 
-export const { updatePoints } = pointsSlice.actions;
+export const { updatePoints, setEnoghpoints } = pointsSlice.actions;
 export default pointsSlice.reducer;

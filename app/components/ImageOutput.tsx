@@ -1,17 +1,17 @@
 "use client";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { addImageUrl } from "../store/featurs/imagesUrlSlice";
 import { startLoading, stopLoading } from "../store/featurs/loadingSlice";
 import { HiChatBubbleBottomCenterText } from "react-icons/hi2";
 import { FaDownload, FaRegStar } from "react-icons/fa";
-import { updatePoints } from "../store/featurs/pointsSlice";
 import Link from "next/link";
-import { useAuth } from "@clerk/nextjs";
 
 const ImageOutput = () => {
+  const [error, setError] = useState<string | null>(null);
+
   const prompt = useSelector((state: RootState) => state.prompt.value);
   const imagesArr = useSelector((state: RootState) => state.imagesArr.value);
   const loadingState = useSelector((state: RootState) => state.loading.value);
@@ -21,7 +21,6 @@ const ImageOutput = () => {
   );
 
   const dispatch = useDispatch();
-  const { userId } = useAuth();
 
   const handleDownload = (url: string, index: number) => {
     const link = document.createElement("a");
@@ -34,8 +33,12 @@ const ImageOutput = () => {
 
   const fetchImage = async () => {
     try {
+      if (points < 5) {
+        setError("Not enough points to fetch image");
+        return;
+      }
       dispatch(startLoading());
-      const requests = Array.from({ length: 1 }, () =>
+      const requests = Array.from({ length: 4 }, () =>
         fetch("/api/fetchImg", {
           method: "POST",
           headers: {
@@ -78,6 +81,24 @@ const ImageOutput = () => {
       }
 
       <div className="flex md:flex-row flex-col gap-2 w-full justify-center items-center overflow-hidden">
+        {error && (
+          <div role="alert" className="alert alert-error">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{error}</span>
+          </div>
+        )}
         {imagesArr.map((url, index) =>
           !loadingState ? (
             <div key={index} className="relative ">

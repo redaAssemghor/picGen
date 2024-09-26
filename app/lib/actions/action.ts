@@ -22,7 +22,7 @@ export const updateUserPoints = async ({ id }: { id: string }) => {
       },
       data: {
         points: {
-          decrement: 5,
+          decrement: 20,
         },
       },
     });
