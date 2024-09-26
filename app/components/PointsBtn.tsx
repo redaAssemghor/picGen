@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { TbStack3 } from "react-icons/tb";
 import { useAuth, useUser } from "@clerk/nextjs";
@@ -14,7 +13,6 @@ const PointsBtn = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("userId", userId);
     const fetchPoints = async () => {
       if (userId) {
         try {

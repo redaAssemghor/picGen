@@ -10,10 +10,10 @@ export default clerkMiddleware((auth, req) => {
     return;
   }
 
-  if (isProtectedRoute(req)) {
-    // Protect the route if it matches the defined pattern
-    auth().protect();
-  }
+  // if (isProtectedRoute(req)) {
+  //   // Protect the route if it matches the defined pattern
+  //   auth().protect();
+  // }
 });
 
 export const config = {

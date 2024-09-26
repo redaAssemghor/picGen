@@ -51,29 +51,10 @@ const ImageOutput = () => {
       const urls = blobs.map((blob) => URL.createObjectURL(blob));
 
       dispatch(addImageUrl(urls));
-      decrementPoints();
     } catch (error) {
       console.error("Failed to fetch image:", error);
     } finally {
       dispatch(stopLoading());
-    }
-  };
-
-  // decrement points api call
-  const decrementPoints = async () => {
-    const response = await fetch("/api/user/updatePoints", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId }),
-    });
-    const data = await response.json();
-    if (response.ok) {
-      dispatch(updatePoints(data.points));
-      console.log(points);
-    } else {
-      console.error("Error fetching points:", data.error);
     }
   };
 

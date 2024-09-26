@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fillPrompt } from "../store/featurs/promptSlice";
@@ -7,6 +7,8 @@ import { setNagativePrompt } from "../store/featurs/negativePromptSlice";
 import { selectModel } from "../store/featurs/modelPickerSlice";
 import PointsBtn from "./PointsBtn";
 import { useAuth } from "@clerk/nextjs";
+import { updateUserPoints } from "../lib/actions/action";
+import { updatePoints } from "../store/featurs/pointsSlice";
 
 const Prompt = () => {
   const [userPrompt, setUserPrompt] = useState("");
@@ -19,11 +21,40 @@ const Prompt = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.loading.value);
 
+  const { userId } = useAuth();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleClear();
-    dispatch(fillPrompt(userPrompt));
-    dispatch(setNagativePrompt(userNegativePrompt));
+
+    // Ensure userId is not null or undefined
+    if (userId) {
+      handleClear();
+      dispatch(fillPrompt(userPrompt));
+      dispatch(setNagativePrompt(userNegativePrompt));
+
+      // Call updateUserPoints only if userId is valid
+      decrementPoints();
+    } else {
+      console.error("User ID is missing or invalid");
+      // Handle the case where the userId is not available (e.g., show a message to the user)
+    }
+  };
+
+  // decrement points api call
+  const decrementPoints = async () => {
+    const response = await fetch("/api/user/updatePoints", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId }),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      dispatch(updatePoints(data.points));
+    } else {
+      console.error("Error fetching points:", data.error);
+    }
   };
 
   const handleClear = () => {
