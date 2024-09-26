@@ -8,6 +8,7 @@ import { startLoading, stopLoading } from "../store/featurs/loadingSlice";
 import { HiChatBubbleBottomCenterText } from "react-icons/hi2";
 import { FaDownload, FaRegStar } from "react-icons/fa";
 import Link from "next/link";
+import { SignInButton, useAuth } from "@clerk/nextjs";
 
 const ImageOutput = () => {
   const [error, setError] = useState<string | null>(null);
@@ -19,6 +20,8 @@ const ImageOutput = () => {
   const negativePrompt = useSelector(
     (state: RootState) => state.negativePrompts.value
   );
+
+  const { isSignedIn } = useAuth();
 
   const dispatch = useDispatch();
 
@@ -81,6 +84,31 @@ const ImageOutput = () => {
       }
 
       <div className="flex md:flex-row flex-col gap-2 w-full justify-center items-center overflow-hidden">
+        {!isSignedIn && (
+          <div role="alert" className="alert shadow-lg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="stroke-info h-6 w-6 shrink-0"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <div>
+              <h3 className="font-bold">You are not Signed I!</h3>
+              <div className="text-xs">sigh in to get free 50 points</div>
+            </div>
+            <button className="btn btn-sm">
+              <SignInButton />
+            </button>
+          </div>
+        )}
+
         {error && (
           <div role="alert" className="alert alert-error">
             <svg

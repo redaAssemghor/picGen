@@ -21,7 +21,7 @@ const Prompt = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.loading.value);
 
-  const { userId } = useAuth();
+  const { userId, isSignedIn } = useAuth();
 
   // decrement points api call
   const decrementPoints = async () => {
@@ -148,6 +148,7 @@ const Prompt = () => {
             </div>
 
             <button
+              disabled={!isSignedIn}
               className={`btn btn-outline btn-success lg:w-60 w-full`}
               type="submit"
             >
