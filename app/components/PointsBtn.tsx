@@ -10,11 +10,11 @@ import Image from "next/image";
 const PointsBtn = () => {
   const [loading, setLoading] = useState(true);
 
-  const { userId } = useAuth();
+  const { userId, isSignedIn } = useAuth();
   const points = useSelector((state: RootState) => state.points.value);
   const dispatch = useDispatch();
 
-  const handelPopUp = () => {
+  const handlePopUp = () => {
     const modelId = document.getElementById("my_modal_3") as HTMLDialogElement;
     if (modelId) {
       modelId.showModal();
@@ -52,17 +52,12 @@ const PointsBtn = () => {
   return (
     <div>
       <button
-        onClick={handelPopUp}
-        className="flex justify-center items-center gap-1 p-2 rounded-xl bg-base-200"
+        onClick={handlePopUp} // Fixed typo in function name
+        className="flex justify-center items-center gap-1 p-3 rounded-xl bg-base-200"
       >
         <TbStack3 />
-        {loading
-          ? "Loading..."
-          : points !== null
-          ? `${points} remaining`
-          : "No points"}
+        {loading && isSignedIn ? "Loading..." : `${points} remaining`}
       </button>
-
       {
         <div>
           <dialog id="my_modal_3" className="modal">
@@ -76,11 +71,13 @@ const PointsBtn = () => {
                 <div>
                   <h3 className="font-bold text-lg">Hello!</h3>
                   <p className="py-4">
-                    by clicking on the button below you will get 5 points
+                    by clicking on the button below you can buy more points
                   </p>
+
+                  <button className="btn btn-sm">Buy Points</button>
                 </div>
               </div>
-              <div className="-mb-7 -mx-7">
+              <div className="hidden lg:block -mb-14 -mx-7">
                 <Image
                   src={"/robot.webp"}
                   alt="hero"
