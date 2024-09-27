@@ -5,6 +5,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { updatePoints } from "../store/featurs/pointsSlice";
+import Image from "next/image";
 
 const PointsBtn = () => {
   const [loading, setLoading] = useState(true);
@@ -65,17 +66,28 @@ const PointsBtn = () => {
       {
         <div>
           <dialog id="my_modal_3" className="modal">
-            <div className="modal-box">
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                  ✕
-                </button>
-              </form>
-              <h3 className="font-bold text-lg">Hello!</h3>
-              <p className="py-4">
-                by clicking on the button below you will get 5 points
-              </p>
+            <div className="modal-box flex flex-col justify-between lg:h-[600px] lg:w-[400px] overflow-hidden">
+              <div>
+                <form method="dialog">
+                  <button className="p-2 border-white border-[0.1px] btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                    ✕
+                  </button>
+                </form>
+                <div>
+                  <h3 className="font-bold text-lg">Hello!</h3>
+                  <p className="py-4">
+                    by clicking on the button below you will get 5 points
+                  </p>
+                </div>
+              </div>
+              <div className="-mb-7 -mx-7">
+                <Image
+                  src={"/robot.webp"}
+                  alt="hero"
+                  width={402}
+                  height={400}
+                />
+              </div>
             </div>
           </dialog>
         </div>

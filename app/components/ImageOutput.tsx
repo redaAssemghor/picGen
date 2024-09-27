@@ -100,12 +100,10 @@ const ImageOutput = () => {
               ></path>
             </svg>
             <div>
-              <h3 className="font-bold">You are not Signed I!</h3>
+              <h3 className="font-bold">You are not Signed In!</h3>
               <div className="text-xs">sigh in to get free 50 points</div>
             </div>
-            <button className="btn btn-sm">
-              <SignInButton />
-            </button>
+            <SignInButton />
           </div>
         )}
 
