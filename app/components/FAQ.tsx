@@ -33,24 +33,26 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="flex p-40 gap-5 text-[--light]">
+    <div className="flex flex-col lg:flex-row lg:p-40 p-4 gap-5 text-[--light]">
       <div className="flex-1">
-        <h1 className="text-4xl font-bold mb-8">
+        <h1 className="lg:text-4xl text-xl font-bold mb-8">
           Have questions? We have answers!
         </h1>
       </div>
-      <div className="space-y-6 flex-1">
+      <div className="lg:space-y-6 space-y-2 flex-1">
         {faqs.map((faq, index) => (
           <div key={index} className="bg-black rounded-3xl p-5">
             <div
               onClick={() => toggleFAQ(index)}
-              className="cursor-pointer flex justify-between mb-5"
+              className="cursor-pointer flex justify-between gap-4 mb-5"
             >
-              <h2 className="text-base font-semibold">{faq.question}</h2>
+              <h2 className="lg:text-base text-sm font-semibold">
+                {faq.question}
+              </h2>
               <TiArrowSortedDown />
             </div>
             <p
-              className={`text-gray-600 transition-all duration-500 ${
+              className={`text-gray-600 transition-all duration-500 text-xs lg:text-base ${
                 isOpen === index
                   ? "max-h-[100px] opacity-100"
                   : "max-h-0 opacity-0"

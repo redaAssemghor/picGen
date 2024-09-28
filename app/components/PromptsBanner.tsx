@@ -5,8 +5,8 @@ import { FaWandMagicSparkles } from "react-icons/fa6";
 
 const PromptsBanner = () => {
   return (
-    <div className="lg:mx-40 overflow-hidden rounded-3xl bg-black bg-opacity-90">
-      <div className="relative h-full w-full text-[--light] rounded-3xl">
+    <div className="lg:mx-40 overflow-hidden lg:rounded-3xl bg-black bg-opacity-90">
+      <div className="relative h-full w-full text-[--light]">
         <Particles
           className="absolute inset-0"
           quantity={100}
@@ -22,9 +22,13 @@ const PromptsBanner = () => {
             alt="footer astro"
           />
 
-          <div className="h-full flex flex-col justify-center items-center gap-4">
-            <h1 className="text-3xl font-bold">Let AI Craft your prompts</h1>
-            <p>Get the best propts with one click</p>
+          <div className="h-full w-full flex flex-col justify-center items-center gap-4 p-5">
+            <h1 className="lg:text-3xl text-xl font-bold">
+              Let AI Craft your prompts
+            </h1>
+            <p className="text-sm text-gray-600">
+              Get the best propts with one click
+            </p>
 
             <div className="flex justify-center z-50">
               <Link
