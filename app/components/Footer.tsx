@@ -33,16 +33,19 @@ const Footer = () => {
           ease={80}
           refresh
         />
-        <aside className="flex flex-col items-center w-full">
+        <aside className="flex flex-col items-center w-full z-50">
           <Link href={"/"} className="text-2xl">
             <Image src="/logo-text.png" alt="logo" width={250} height={250} />
           </Link>
-          <p className="text-[--light] text-sm">
-            Copyright © {new Date().getFullYear()} - Made by{" "}
-            <Link href={"https://portfolio-mocha-eta-22.vercel.app/"}>
-              Reda
-            </Link>
-          </p>
+          <Link
+            href={"https://portfolio-mocha-eta-22.vercel.app/"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <p className="text-[--light] text-sm">
+              Copyright © {new Date().getFullYear()} - Made by Reda
+            </p>
+          </Link>
         </aside>
         <nav className="lg:flex gap-6 hidden">
           <a>

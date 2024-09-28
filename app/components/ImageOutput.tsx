@@ -75,7 +75,7 @@ const ImageOutput = () => {
   }, [prompt]);
 
   return (
-    <div className="flex flex-col gap-4 bg-base-200 rounded-lg my-10 p-5">
+    <div className="flex flex-col gap-4 bg-[--black] rounded-lg my-10 p-5">
       {
         <h1 className="flex gap-2 items-center">
           <HiChatBubbleBottomCenterText />

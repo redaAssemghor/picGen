@@ -5,7 +5,7 @@ import { FaWandMagicSparkles } from "react-icons/fa6";
 
 const PromptsBanner = () => {
   return (
-    <div className="lg:mx-40 overflow-hidden lg:rounded-3xl bg-black bg-opacity-90">
+    <div className="lg:mx-40 overflow-hidden lg:rounded-3xl bg-black bg-opacity-90 shadow-black">
       <div className="relative h-full w-full text-[--light]">
         <Particles
           className="absolute inset-0"

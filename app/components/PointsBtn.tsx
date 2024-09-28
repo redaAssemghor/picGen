@@ -53,7 +53,7 @@ const PointsBtn = () => {
     <div>
       <button
         onClick={handlePopUp} // Fixed typo in function name
-        className="flex justify-center items-center gap-1 p-3 rounded-xl bg-base-200"
+        className="flex justify-center items-center gap-1 p-3 rounded-xl bg-[--black]"
       >
         <TbStack3 />
         {loading && isSignedIn ? "Loading..." : `${points} remaining`}

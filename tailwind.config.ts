@@ -14,8 +14,6 @@ const config: Config = {
         neon: "0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4)",
       },
       backgroundImage: {
-        "custom-radial":
-          "radial-gradient(44.36% 38.02% at 50% 50%, #272B36 0%, #0C0D0F 100%), rgba(255,255,255,0.02)",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",

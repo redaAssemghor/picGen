@@ -9,7 +9,7 @@ const Pricing = () => {
       <Header />
       <div className="p-10 z-50 relative">
         <ul className="flex h-full flex-col justify-center items-center gap-5">
-          <li className="bg-black py-2 px-4">
+          <li className="bg-[--dark] text-[--light] py-2 px-4">
             <h2 className="text-sm">Level up!</h2>
           </li>
           <li>

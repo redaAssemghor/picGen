@@ -33,7 +33,7 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row lg:p-40 p-4 gap-5 text-[--light]">
+    <div className="custom-radial-bot flex flex-col lg:flex-row lg:p-40 p-4 gap-5 text-[--light]">
       <div className="flex-1">
         <h1 className="lg:text-4xl text-xl font-bold mb-8">
           Have questions? We have answers!

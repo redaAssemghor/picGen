@@ -7,12 +7,12 @@ const PricingCard = ({ plan }: { plan: Plan }) => {
   return (
     <div className="relative m-10">
       {plan.isPrimuim && (
-        <span className="bg-[--dark] p-1 font-semibold text-lg absolute top-0 right-10 z-50">
+        <span className="bg-[--dark] text-[--light] p-1 font-semibold text-lg absolute top-0 right-10 z-50">
           Popular
         </span>
       )}
       {/* <span className="absolute w-full h-full bg-[--dark] z-10 blur"></span> */}
-      <div className="relative z-50 lg:w-[400px] flex flex-col gap-10 p-10 text-white bg-transparent border border-white rounded-3xl">
+      <div className="relative z-50 lg:w-[400px] flex flex-col gap-10 p-10 text-white bg-transparent border border-white rounded-3xl shadow-2xl">
         <div className="space-y-3 z-50">
           <h1 className="text-3xl font-bold flex gap-2">
             <IconComponent className="text-yellow-500" /> {plan.name}

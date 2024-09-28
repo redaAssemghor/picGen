@@ -107,7 +107,7 @@ const Info = () => {
     "/stable-diffusion/02.webp",
   ];
   return (
-    <div className="text-[--light]  px-5 lg:p-40 w-screen">
+    <div className="text-[--light]  px-5 lg:p-40 w-screen custom-radial-top">
       <div className="flex flex-col gap-2 items-center">
         <h2 className="p-2 bg-[--dark-blue] text-sm font-bold">
           Unleash Your Creativity

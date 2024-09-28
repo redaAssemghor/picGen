@@ -12,9 +12,25 @@
   --black: #0c0d0f;
 }
 
-.bg {
+.custom-radial-top {
   background-image: radial-gradient(
-    ellipse 100% 100% at 0 100%,
+    44.36% 38.02% at 50% 0%,
+    rgba(119, 232, 208, 0.15),
+    rgba(232, 119, 175, 0)
+  );
+}
+
+.custom-radial-bot {
+  background-image: radial-gradient(
+    44.36% 38.02% at 50% 100%,
+    rgba(119, 232, 208, 0.15),
+    rgba(232, 119, 175, 0)
+  );
+}
+
+.custom-radial {
+  background-image: radial-gradient(
+    44.36% 38.02% at 50% 50%,
     rgba(119, 232, 208, 0.15),
     rgba(232, 119, 175, 0)
   );
