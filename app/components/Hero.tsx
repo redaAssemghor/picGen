@@ -3,8 +3,8 @@ import { FaWandMagicSparkles } from "react-icons/fa6";
 
 const Hero = () => {
   return (
-    <div className="h-screen flex justify-center items-center px-4">
-      <div className="text-center max-w-3xl mx-auto space-y-6">
+    <div className="h-screen flex justify-center items-center px-4 relative z-50">
+      <div className="text-center max-w-3xl mx-auto space-y-6 bg-custom-radial">
         <h1 className="text-2xl font-extrabold tracking-widest text-gray-700">
           Unlock Your Creativity
         </h1>

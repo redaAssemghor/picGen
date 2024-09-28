@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fillPrompt } from "../store/featurs/promptSlice";
@@ -7,7 +7,6 @@ import { setNagativePrompt } from "../store/featurs/negativePromptSlice";
 import { selectModel } from "../store/featurs/modelPickerSlice";
 import PointsBtn from "./PointsBtn";
 import { useAuth } from "@clerk/nextjs";
-import { updateUserPoints } from "../lib/actions/action";
 import { updatePoints } from "../store/featurs/pointsSlice";
 
 const Prompt = () => {
