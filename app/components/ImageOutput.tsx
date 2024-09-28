@@ -125,34 +125,35 @@ const ImageOutput = () => {
             <span>{error}</span>
           </div>
         )}
-        {imagesArr.map((url, index) =>
-          !loadingState ? (
-            <div key={index} className="relative ">
-              <Link href={"/images"} className="custom-cursor">
-                <Image
-                  className="rounded-lg md:w-[300px]"
-                  src={url}
-                  alt={`image-${index}`}
-                  width={300}
-                  height={300}
-                />
-              </Link>
-              <div className="absolute bottom-0 right-0 flex gap-4 p-4">
-                <button className="rounded-full hover:bg-neutral p-2 duration-700">
-                  <FaRegStar size={30} color="white" />
-                </button>
-                <button
-                  onClick={() => handleDownload(url, index)}
-                  className="rounded-full hover:bg-neutral p-2 duration-700"
-                >
-                  <FaDownload size={30} color="white" />
-                </button>
+        {!error &&
+          imagesArr.map((url, index) =>
+            !loadingState ? (
+              <div key={index} className="relative ">
+                <Link href={"/images"} className="custom-cursor">
+                  <Image
+                    className="rounded-lg md:w-[300px]"
+                    src={url}
+                    alt={`image-${index}`}
+                    width={300}
+                    height={300}
+                  />
+                </Link>
+                <div className="absolute bottom-0 right-0 flex gap-4 p-4">
+                  <button className="rounded-full hover:bg-neutral p-2 duration-700">
+                    <FaRegStar size={30} color="white" />
+                  </button>
+                  <button
+                    onClick={() => handleDownload(url, index)}
+                    className="rounded-full hover:bg-neutral p-2 duration-700"
+                  >
+                    <FaDownload size={30} color="white" />
+                  </button>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div key={index} className="skeleton h-[350px] w-[350px]"></div>
-          )
-        )}
+            ) : (
+              <div key={index} className="skeleton h-[350px] w-[350px]"></div>
+            )
+          )}
       </div>
     </div>
   );

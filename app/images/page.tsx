@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { HiFlag, HiMiniXMark } from "react-icons/hi2";
-import { FaDownload, FaRegHeart, FaRegStar } from "react-icons/fa";
+import { FaRegHeart, FaRegStar } from "react-icons/fa";
 import { HiOutlineDownload } from "react-icons/hi";
 
 const FullImgPage = () => {
@@ -28,7 +28,7 @@ const FullImgPage = () => {
   };
 
   return (
-    <div className="lg:flex h-screen">
+    <div className="lg:flex h-screen bg-[--black] text-[--light]">
       <div className="relative flex flex-col gap-4 justify-center items-center p-5 lg:w-2/3">
         {/* Blurred Background Element */}
         <div className="absolute inset-0 bg-secondary-content blur-3xl z-0"></div>

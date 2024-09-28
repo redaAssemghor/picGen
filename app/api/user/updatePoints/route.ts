@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    if (user.points < 4) {
+    if (user.points < 5) {
       return NextResponse.json(
         { error: "User does not have enough points" },
         { status: 400 }
