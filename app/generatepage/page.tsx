@@ -7,7 +7,7 @@ const Container = () => {
   return (
     <div>
       <Header />
-      <div className="lg:m-20 rounded-3xl p-10 bg-neutral">
+      <div className="lg:m-20 rounded-3xl p-10 bg-[--dark]">
         <Prompt />
         <ResultFetch />
       </div>

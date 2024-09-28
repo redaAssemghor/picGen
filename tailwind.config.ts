@@ -9,6 +9,9 @@ const config: Config = {
   theme: {
     themes: ["cupcake", "dark", "cmyk"],
     extend: {
+      boxShadow: {
+        neon: "0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4)",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

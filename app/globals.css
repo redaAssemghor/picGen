@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --light: #fefefe;
+  --dark: #0a0f20;
+  --voilet: #9c26d7;
+  --light-blue: #1eb1db;
+  --dark-blue: #7286ff;
+  --gray: #6a6e74;
+}
+
+.bg {
+  background-image: radial-gradient(
+    ellipse 100% 100% at 0 100%,
+    rgba(119, 232, 208, 0.15),
+    rgba(232, 119, 175, 0)
+  );
+}
+
 .custom-cursor {
   cursor: url("/custom-cursor.png"), auto;
+}
+
+.blur {
+  filter: blur(5px);
+}
+.bg-image {
+  background-image: url("/bg-blurr.png");
+  background-size: cover;
+  background-position: center;
 }
