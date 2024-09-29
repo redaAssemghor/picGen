@@ -4,6 +4,10 @@ import { Plan } from "../data/plans";
 
 const PricingCard = ({ plan }: { plan: Plan }) => {
   const IconComponent = plan.icon;
+
+  const handleSubscribe = () => {
+    window.location.href = "https://buy.stripe.com/test_6oE3gc82Q6vy9lSfYY";
+  };
   return (
     <div className="relative m-10">
       {plan.isPrimuim && (
@@ -29,6 +33,7 @@ const PricingCard = ({ plan }: { plan: Plan }) => {
 
         <div className="flex flex-col items-center space-y-10">
           <button
+            onClick={handleSubscribe}
             className={`text-white font-semibold w-full rounded-full py-2 shadow-xl border border-[--dark-blue] ${
               plan.isPrimuim ? "bg-[--dark-blue]" : ""
             }`}

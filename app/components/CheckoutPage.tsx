@@ -12,7 +12,7 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
   const elements = useElements();
 
   const [clientSecret, setClientSecret] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | undefined>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -28,10 +28,49 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
         setClientSecret(data.clientSecret);
       });
   }, [amount]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const { error: submitError } = await elements.submit();
+
+    if (submitError) {
+      setErrorMessage(submitError.message);
+      setLoading(false);
+    } else {
+      setErrorMessage("");
+      setLoading(false);
+    }
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      clientSecret,
+      confirmParams: {
+        return_url: `http://localhost:3000/success-page?amount=${amount}`,
+      },
+    });
+
+    if (error) {
+      setErrorMessage(error.message);
+    }
+
+    setLoading(false);
+  };
+
+  if (!stripe || !elements || !clientSecret) {
+    return <div className="text-[--light]">Loading...</div>;
+  }
   return (
-    <div>
-      <form>
+    <div className="text-[--light]">
+      <form onSubmit={handleSubmit}>
         {clientSecret && <PaymentElement />}
+
+        {errorMessage && <div>{errorMessage}</div>}
         <button>pay</button>
       </form>
     </div>
