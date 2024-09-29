@@ -6,6 +6,7 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import convertTosubCurency from "../lib/convertTosubCurency";
+import { useAuth } from "@clerk/nextjs";
 
 const CheckoutPage = ({ amount }: { amount: number }) => {
   const stripe = useStripe();
@@ -15,19 +16,24 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
   const [errorMessage, setErrorMessage] = useState<string | undefined>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  const { userId } = useAuth();
+
   useEffect(() => {
     fetch("/api/stripe/payment-intent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: convertTosubCurency(amount) }),
+      body: JSON.stringify({
+        amount: convertTosubCurency(amount),
+        clerkId: userId,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
         setClientSecret(data.clientSecret);
       });
-  }, [amount]);
+  }, [amount, userId]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

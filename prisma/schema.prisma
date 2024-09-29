@@ -7,8 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Transaction {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  paymentIntentId String @unique
+  amount          Int
+  status          String
+  userId          String @db.ObjectId
+  user            User   @relation(fields: [userId], references: [id])
+}
+
 model User {
-  id      String @id @default(cuid()) @map("_id")
-  clerkId String @unique
-  points  Int
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId      String        @unique
+  points       BigInt
+  transactions Transaction[]
 }

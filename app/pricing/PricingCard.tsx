@@ -5,6 +5,12 @@ import { Plan } from "../data/plans";
 const PricingCard = ({ plan }: { plan: Plan }) => {
   const IconComponent = plan.icon;
 
+  const paymentLink = [
+    { name: "Basic", link: "https://buy.stripe.com/test_28oeYU96UdY00PmaEF" },
+    { name: "Plus", link: "https://buy.stripe.com/test_fZebMI0AodY0cy45km" },
+    { name: "Premium", link: "https://buy.stripe.com/test_6oE3gc82Q6vy9lSfYY" },
+  ];
+
   const handleSubscribe = () => {
     window.location.href = "https://buy.stripe.com/test_6oE3gc82Q6vy9lSfYY";
   };

@@ -16,7 +16,7 @@ const amount = 9.99;
 const page = () => {
   return (
     <div className="bg-[--black]">
-      {/* <Elements
+      <Elements
         stripe={stripePromise}
         options={{
           currency: "usd",
@@ -25,9 +25,9 @@ const page = () => {
         }}
       >
         <CheckoutPage amount={amount} />
-      </Elements> */}
-      <Pricing />
-      <Footer />
+      </Elements>
+      {/* <Pricing />
+      <Footer /> */}
     </div>
   );
 };
