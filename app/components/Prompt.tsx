@@ -29,7 +29,7 @@ const Prompt = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ id: userId }),
     });
     const data = await response.json();
     if (response.ok) {
