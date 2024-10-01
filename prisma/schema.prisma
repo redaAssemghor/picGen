@@ -7,18 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Transaction {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  paymentIntentId String @unique
-  amount          Int
-  status          String
-  userId          String @db.ObjectId
-  user            User   @relation(fields: [userId], references: [id])
+enum Plan {
+  free
+  premium
+  plus
+  basic
 }
 
 model User {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  clerkId      String        @unique
+  id           String        @id @default(cuid()) @map("_id")
   points       BigInt
-  transactions Transaction[]
+  subscription Subscription?
+  plan         Plan          @default(free)
+  customerId   String?       @unique
+}
+
+model Subscription {
+  id              String @id @default(cuid()) @map("_id") @db.ObjectId
+  paymentIntentId String @unique
+  amount          Int
+  status          String
+  userId          String @unique
+  user            User   @relation(fields: [userId], references: [id])
 }

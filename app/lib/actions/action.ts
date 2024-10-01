@@ -4,8 +4,8 @@ export const createUser = async ({ id }: { id: string }) => {
   try {
     const user = await prisma.user.create({
       data: {
-        clerkId: id,
-        points: 50,
+        id,
+        points: 100,
       },
     });
     return user;
@@ -18,7 +18,7 @@ export const updateUserPoints = async ({ id }: { id: string }) => {
   try {
     const user = await prisma.user.update({
       where: {
-        clerkId: id,
+        id,
       },
       data: {
         points: {
@@ -36,7 +36,7 @@ export const getUser = async ({ id }: { id: string }) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        clerkId: id,
+        id,
       },
     });
     return user;

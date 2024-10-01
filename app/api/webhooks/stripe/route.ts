@@ -19,40 +19,38 @@ export async function POST(req: NextRequest) {
 
     // Handle the event based on its type
     switch (event.type) {
-      case "payment_intent.succeeded": {
-        const paymentIntent = event.data.object as Stripe.PaymentIntent;
+      case "charge.updated": {
+        const charge = event.data.object as Stripe.Charge;
 
         // Fetch MongoDB user by clerkId from Prisma
         const user = await prisma.user.findUnique({
-          where: { clerkId: paymentIntent.metadata.clerkId },
+          where: { clerkId: charge.metadata.clerkId },
         });
 
         if (!user) {
           throw new Error(
-            `User not found for clerkId: ${paymentIntent.metadata.clerkId}`
+            `User not found for clerkId: ${charge.metadata.clerkId}`
           );
         }
+        console.log(user);
 
         // Create a transaction and use MongoDB user.id (_id) as userId
-        await prisma.transaction.create({
-          data: {
-            paymentIntentId: paymentIntent.id,
-            amount: paymentIntent.amount,
-            status: paymentIntent.status,
-            userId: user.id, // MongoDB user.id, which is an ObjectId
-          },
-        });
+        // await prisma.transaction.create({
+        //   data: {
+        //     paymentIntentId: paymentIntent.id,
+        //     amount: paymentIntent.amount,
+        //     status: paymentIntent.status,
+        //     userId: user.id as string,
+        //   },
+        // });
 
         // Optionally update user points
         await prisma.user.update({
-          where: { id: user.id },
+          where: { clerkId: charge.metadata.clerkId },
           data: {
             points: { increment: 100 },
           },
         });
-
-        console.log("userid from webhook", user);
-
         return NextResponse.json({ status: "success", event: event.type });
       }
 
