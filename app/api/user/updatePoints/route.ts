@@ -4,16 +4,16 @@ import { getUser, updateUserPoints } from "@/app/lib/actions/action";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const userId = body.userId;
+    const id = body.id;
 
-    if (!userId) {
+    if (!id) {
       return NextResponse.json(
         { error: "User ID is missing" },
         { status: 400 }
       );
     }
 
-    const user = await getUser({ id: userId });
+    const user = await getUser({ id });
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const updatedUser = await updateUserPoints({ id: userId });
+    const updatedUser = await updateUserPoints({ id });
 
     if (!updatedUser) {
       return NextResponse.json(
