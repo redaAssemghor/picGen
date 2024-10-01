@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
         // Fetch MongoDB user by clerkId from Prisma
         const user = await prisma.user.findUnique({
-          where: { clerkId: charge.metadata.clerkId },
+          where: { id: charge.metadata.clerkId },
         });
 
         if (!user) {
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
 
         // Optionally update user points
         await prisma.user.update({
-          where: { clerkId: charge.metadata.clerkId },
+          where: { id: charge.metadata.clerkId },
           data: {
             points: { increment: 100 },
           },
