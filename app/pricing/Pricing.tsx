@@ -7,9 +7,9 @@ const Pricing = () => {
     <div className="relative">
       <div className="blur-3xl bg-image absolute h-full w-full z-10 bg-[--dark]"></div>
       <Header />
-      <div className="p-10 z-50 relative">
+      <div className="p-10 z-50 relative text-[--light]">
         <ul className="flex h-full flex-col justify-center items-center gap-5">
-          <li className="bg-[--dark] text-[--light] py-2 px-4">
+          <li className="bg-[--dark] py-2 px-4">
             <h2 className="text-sm">Level up!</h2>
           </li>
           <li>

@@ -16,6 +16,7 @@ enum Plan {
 
 model User {
   id           String        @id @default(cuid()) @map("_id")
+  email        String        @unique
   points       Int
   subscription Subscription?
   plan         Plan          @default(free)

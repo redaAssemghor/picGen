@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fillPrompt } from "../store/featurs/promptSlice";
@@ -23,7 +23,7 @@ const Prompt = () => {
   const { userId, isSignedIn } = useAuth();
 
   // decrement points api call
-  const decrementPoints = async () => {
+  const decrementPoints = useCallback(async () => {
     const response = await fetch("/api/user/updatePoints", {
       method: "POST",
       headers: {
@@ -37,7 +37,7 @@ const Prompt = () => {
     } else {
       console.error("Error fetching points:", data.error);
     }
-  };
+  }, [dispatch, userId]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

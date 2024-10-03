@@ -1,19 +1,17 @@
+"use client";
 import React from "react";
-import { FaCrown } from "react-icons/fa6";
 import { Plan } from "../data/plans";
+import Link from "next/link";
+import { RedirectToSignIn, SignInButton, useAuth } from "@clerk/nextjs";
 
 const PricingCard = ({ plan }: { plan: Plan }) => {
+  const { isSignedIn } = useAuth();
   const IconComponent = plan.icon;
 
-  const paymentLink = [
-    { name: "Basic", link: "https://buy.stripe.com/test_28oeYU96UdY00PmaEF" },
-    { name: "Plus", link: "https://buy.stripe.com/test_fZebMI0AodY0cy45km" },
-    { name: "Premium", link: "https://buy.stripe.com/test_6oE3gc82Q6vy9lSfYY" },
-  ];
+  if (!isSignedIn) {
+    return <RedirectToSignIn />;
+  }
 
-  const handleSubscribe = () => {
-    window.location.href = "https://buy.stripe.com/test_6oE3gc82Q6vy9lSfYY";
-  };
   return (
     <div className="relative m-10">
       {plan.isPrimuim && (
@@ -38,14 +36,14 @@ const PricingCard = ({ plan }: { plan: Plan }) => {
         </div>
 
         <div className="flex flex-col items-center space-y-10">
-          <button
-            onClick={handleSubscribe}
-            className={`text-white font-semibold w-full rounded-full py-2 shadow-xl border border-[--dark-blue] ${
-              plan.isPrimuim ? "bg-[--dark-blue]" : ""
+          <Link
+            href={plan.paymentLink}
+            className={`text-center text-white font-semibold w-full rounded-full py-2 shadow-xl border border-[--dark-blue] ${
+              plan.isPrimuim ? "bg-[--dark-blue] hover:text-" : ""
             }`}
           >
             Subscribe Now!
-          </button>
+          </Link>
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold text-gray-400 line-through">

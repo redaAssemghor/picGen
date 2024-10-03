@@ -41,12 +41,12 @@ export async function POST(req: Request) {
   if (evt.type === "user.created") {
     console.log("User created event received");
 
-    const { id } = evt.data;
+    const { id, email_addresses } = evt.data;
     console.log("web hook", id);
 
     if (id) {
       try {
-        await createUser({ id });
+        await createUser({ id, email: email_addresses[0].email_address });
 
         console.log("User created successfully in the database");
         return new Response("User created", { status: 201 });

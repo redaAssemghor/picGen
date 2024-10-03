@@ -26,7 +26,7 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
       },
       body: JSON.stringify({
         amount: convertTosubCurency(amount),
-        clerkId: userId,
+        id: userId,
       }),
     })
       .then((res) => res.json())

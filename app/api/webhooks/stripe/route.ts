@@ -19,38 +19,34 @@ export async function POST(req: NextRequest) {
 
     // Handle the event based on its type
     switch (event.type) {
-      case "charge.updated": {
-        const charge = event.data.object as Stripe.Charge;
+      case "checkout.session.completed": {
+        const charge = stripe.checkout.sessions.retrieve(
+          (event.data.object as Stripe.Checkout.Session).id,
+          { expand: ["line_items"] }
+        );
+
+        const costumerId = (await charge).customer as string;
+        const costumerDetails = (await charge).customer_details;
 
         // Fetch MongoDB user by clerkId from Prisma
         const user = await prisma.user.findUnique({
-          where: { id: charge.metadata.clerkId },
+          where: { email: costumerDetails?.email as string },
         });
 
         if (!user) {
-          throw new Error(
-            `User not found for clerkId: ${charge.metadata.clerkId}`
-          );
+          throw new Error("User not found");
         }
-        console.log(user);
+        console.log("user from webhook", user);
 
         // Create a transaction and use MongoDB user.id (_id) as userId
-        // await prisma.transaction.create({
+        // await prisma.subscription.create({
         //   data: {
-        //     paymentIntentId: paymentIntent.id,
-        //     amount: paymentIntent.amount,
-        //     status: paymentIntent.status,
-        //     userId: user.id as string,
+        //     amount: charge.amount,
+        //     userId: user.id,
+        //     paymentIntentId: charge.payment_intent as string, // Stripe Payment Intent ID
+        //     status: charge.status, // Status of the charge (e.g., 'succeeded', 'pending')
         //   },
         // });
-
-        // Optionally update user points
-        await prisma.user.update({
-          where: { id: charge.metadata.clerkId },
-          data: {
-            points: { increment: 100 },
-          },
-        });
         return NextResponse.json({ status: "success", event: event.type });
       }
 

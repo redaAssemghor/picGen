@@ -12,6 +12,7 @@ export type Plan = {
   discount: string;
   isPrimuim?: boolean;
   icon: IconType;
+  paymentLink: string;
 };
 
 export const premiumPlan: Plan = {
@@ -24,6 +25,7 @@ export const premiumPlan: Plan = {
   discount: "50% off",
   isPrimuim: true,
   icon: FaCrown,
+  paymentLink: "https://buy.stripe.com/test_6oE3gc82Q6vy9lSfYY",
 };
 
 export const plusPlan: Plan = {
@@ -36,6 +38,7 @@ export const plusPlan: Plan = {
   discount: "53% off",
   isPrimuim: false,
   icon: BsBookmarkPlusFill,
+  paymentLink: "https://buy.stripe.com/test_fZebMI0AodY0cy45km",
 };
 
 export const basicPlan: Plan = {
@@ -48,4 +51,5 @@ export const basicPlan: Plan = {
   discount: "60% off",
   isPrimuim: false,
   icon: GiAngelWings,
+  paymentLink: "https://buy.stripe.com/test_28oeYU96UdY00PmaEF",
 };
