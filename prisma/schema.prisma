@@ -24,10 +24,9 @@ model User {
 }
 
 model Subscription {
-  id              String @id @default(cuid()) @map("_id") @db.ObjectId
-  paymentIntentId String @unique
-  amount          Int
-  status          String
-  userId          String @unique
-  user            User   @relation(fields: [userId], references: [id])
+  id     String  @id @default(cuid()) @map("_id") @db.ObjectId
+  amount Int
+  status String?
+  userId String  @unique
+  user   User    @relation(fields: [userId], references: [id])
 }

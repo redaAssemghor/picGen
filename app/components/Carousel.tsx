@@ -1,24 +1,8 @@
 import Image from "next/image";
 import { MdOutlineArrowRightAlt } from "react-icons/md";
+import Marquee from "react-fast-marquee";
 
-const imgs = [
-  { link: "/carousel/img01.webp", alt: "img01" },
-  { link: "/carousel/img02.jpg", alt: "img02" },
-  { link: "/carousel/img03.jpg", alt: "img03" },
-  { link: "/carousel/img04.jpg", alt: "img04" },
-  { link: "/carousel/img05.jpg", alt: "img05" },
-  { link: "/carousel/img06.webp", alt: "img06" },
-  { link: "/carousel/img07.webp", alt: "img07" },
-  { link: "/carousel/img08.webp", alt: "img08" },
-  { link: "/carousel/img09.webp", alt: "img09" },
-  { link: "/carousel/img10.webp", alt: "img10" },
-  { link: "/carousel/img6.webp", alt: "Burger" },
-  { link: "/carousel/img7.webp", alt: "Burger" },
-  { link: "/carousel/img5.webp", alt: "Burger" },
-  { link: "/carousel/img2.webp", alt: "Burger" },
-  { link: "/carousel/img3.webp", alt: "Burger" },
-  { link: "/carousel/img4.webp", alt: "Burger" },
-  { link: "/carousel/img11.webp", alt: "img11" },
+const imgsRight = [
   { link: "/carousel/img12.webp", alt: "img12" },
   { link: "/carousel/img13.webp", alt: "img13" },
   { link: "/carousel/img15.webp", alt: "img15" },
@@ -39,29 +23,62 @@ const imgs = [
   { link: "/carousel/img30.webp", alt: "img30" },
 ];
 
+const imgsLeft = [
+  { link: "/carousel/img01.webp", alt: "img01" },
+  { link: "/carousel/img02.jpg", alt: "img02" },
+  { link: "/carousel/img03.jpg", alt: "img03" },
+  { link: "/carousel/img04.jpg", alt: "img04" },
+  { link: "/carousel/img05.jpg", alt: "img05" },
+  { link: "/carousel/img06.webp", alt: "img06" },
+  { link: "/carousel/img07.webp", alt: "img07" },
+  { link: "/carousel/img08.webp", alt: "img08" },
+  { link: "/carousel/img09.webp", alt: "img09" },
+  { link: "/carousel/img10.webp", alt: "img10" },
+  { link: "/carousel/img6.webp", alt: "Burger" },
+  { link: "/carousel/img7.webp", alt: "Burger" },
+  { link: "/carousel/img5.webp", alt: "Burger" },
+  { link: "/carousel/img2.webp", alt: "Burger" },
+  { link: "/carousel/img3.webp", alt: "Burger" },
+  { link: "/carousel/img4.webp", alt: "Burger" },
+  { link: "/carousel/img11.webp", alt: "img11" },
+];
+
 const Carousel = () => {
   return (
     <div className="">
-      <h1 className="flex items-center gap-2 px-5 opacity-60">
+      <h1 className="flex text-[--light] items-center gap-2 px-5 opacity-60">
         <span className="text-2xl">SCROLL</span>
         <MdOutlineArrowRightAlt size={60} />
       </h1>
 
-      <div className="carousel">
-        {imgs.map((img, index) => (
-          <div
-            key={index}
-            className="carousel-item max-w-[300px] max-h-[300px]"
-          >
-            <Image
-              className="object-cover"
-              width={400}
-              height={400}
-              src={img.link}
-              alt={img.alt}
-            />
-          </div>
-        ))}
+      <div className="carousel flex flex-col gap-4">
+        <Marquee gradient={false} speed={40} pauseOnHover direction="left">
+          {imgsLeft.map((img, index) => (
+            <div key={index} className="carousel-item w-[300px] h-[300px] mx-2">
+              <Image
+                className="object-cover rounded-3xl hover:scale-105 transition-transform duration-500"
+                width={300}
+                height={300}
+                src={img.link}
+                alt={img.alt}
+              />
+            </div>
+          ))}
+        </Marquee>
+
+        <Marquee gradient={false} speed={40} pauseOnHover direction="right">
+          {imgsRight.map((img, index) => (
+            <div key={index} className="carousel-item w-[300px] h-[300px] mx-2">
+              <Image
+                className="object-cover rounded-3xl hover:scale-105 transition-transform duration-500"
+                width={300}
+                height={300}
+                src={img.link}
+                alt={img.alt}
+              />
+            </div>
+          ))}
+        </Marquee>
       </div>
     </div>
   );

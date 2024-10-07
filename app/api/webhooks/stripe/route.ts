@@ -20,33 +20,44 @@ export async function POST(req: NextRequest) {
     // Handle the event based on its type
     switch (event.type) {
       case "checkout.session.completed": {
-        const charge = stripe.checkout.sessions.retrieve(
+        const session = stripe.checkout.sessions.retrieve(
           (event.data.object as Stripe.Checkout.Session).id,
           { expand: ["line_items"] }
         );
 
-        const costumerId = (await charge).customer as string;
-        const costumerDetails = (await charge).customer_details;
+        const costumerId = (await session).customer as string;
+        const costumerDetails = (await session).customer_details;
 
-        // Fetch MongoDB user by clerkId from Prisma
-        const user = await prisma.user.findUnique({
-          where: { email: costumerDetails?.email as string },
-        });
+        if (costumerDetails?.email) {
+          const user = await prisma.user.findFirst({
+            where: { email: costumerDetails?.email as string },
+          });
+          if (!user) {
+            throw new Error("User not found");
+          }
+          console.log("user from webhook", user);
 
-        if (!user) {
-          throw new Error("User not found");
+          if (!user.customerId) {
+            await prisma.user.update({
+              where: { email: costumerDetails?.email as string },
+              data: { customerId: costumerId },
+            });
+          }
         }
-        console.log("user from webhook", user);
 
-        // Create a transaction and use MongoDB user.id (_id) as userId
-        // await prisma.subscription.create({
-        //   data: {
-        //     amount: charge.amount,
-        //     userId: user.id,
-        //     paymentIntentId: charge.payment_intent as string, // Stripe Payment Intent ID
-        //     status: charge.status, // Status of the charge (e.g., 'succeeded', 'pending')
-        //   },
-        // });
+        const lineItems = (await session).line_items?.data;
+        for (const item of lineItems as Stripe.LineItem[]) {
+          const price = item.price;
+          const itemId = item.id;
+
+          await prisma.subscription.create({
+            data: {
+              amount: price?.unit_amount as number,
+              userId: costumerId,
+            },
+          });
+        }
+
         return NextResponse.json({ status: "success", event: event.type });
       }
 

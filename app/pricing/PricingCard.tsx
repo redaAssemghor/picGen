@@ -2,7 +2,7 @@
 import React from "react";
 import { Plan } from "../data/plans";
 import Link from "next/link";
-import { RedirectToSignIn, SignInButton, useAuth } from "@clerk/nextjs";
+import { RedirectToSignIn, useAuth } from "@clerk/nextjs";
 
 const PricingCard = ({ plan }: { plan: Plan }) => {
   const { isSignedIn } = useAuth();
