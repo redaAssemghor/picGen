@@ -28,7 +28,7 @@ const ImageOutput = () => {
         return;
       }
       dispatch(startLoading());
-      const requests = Array.from({ length: 2 }, () =>
+      const requests = Array.from({ length: 4 }, () =>
         fetch("/api/fetchImg", {
           method: "POST",
           headers: {

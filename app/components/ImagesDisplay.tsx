@@ -7,7 +7,7 @@ import { useState } from "react";
 import FullImgPage from "./FullImage";
 
 const ImagesDisplay = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const showImages = () => {
     setShow(true);
