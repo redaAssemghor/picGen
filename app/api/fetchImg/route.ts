@@ -3,7 +3,8 @@ import { HfInference } from "@huggingface/inference";
 
 const hf = new HfInference(process.env.HF_ACCESS_TOKEN);
 
-const model = "stabilityai/stable-diffusion-2";
+// const model = "stabilityai/stable-diffusion-2";
+const model = "CompVis/stable-diffusion-v1-4";
 
 export async function POST(request: Request) {
   try {
