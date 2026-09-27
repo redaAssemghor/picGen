@@ -24,7 +24,7 @@ const ImageOutput = () => {
   const fetchImage = async () => {
     try {
       if (points < 5) {
-        setError("Not enough points to fetch image");
+        setError("Not enough credits. Explore plans to keep creating.");
         return;
       }
       dispatch(startLoading());
@@ -66,7 +66,7 @@ const ImageOutput = () => {
       {
         <h1 className="flex gap-2 items-center">
           <HiChatBubbleBottomCenterText />
-          Generate: {prompt}
+          {prompt ? `Your prompt: ${prompt}` : "Your next creation starts here"}
         </h1>
       }
 
@@ -87,8 +87,8 @@ const ImageOutput = () => {
               ></path>
             </svg>
             <div>
-              <h3 className="font-bold">You are not Signed In!</h3>
-              <div className="text-xs">sigh in to get free 50 points</div>
+              <h3 className="font-bold">Sign in to start creating</h3>
+              <div className="text-xs">Your creative studio is ready when you are.</div>
             </div>
             <SignInButton />
           </div>

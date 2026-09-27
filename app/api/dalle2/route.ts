@@ -1,23 +1,4 @@
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-export async function POST(request: Request) {
-  try {
-    const { prompt } = await request.json();
-    const response = await openai.images.generate({
-      model: "dall-e-3",
-      prompt,
-      n: 1,
-      size: "1024x1024",
-    });
-    const image_url = response.data[0].url;
-
-    console.log("server:", image_url);
-    return NextResponse.json({ image_url });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error });
-  }
+export async function POST() {
+  return NextResponse.json({ error: "DALL·E has been replaced by open image models. Use the studio." }, { status: 410 });
 }

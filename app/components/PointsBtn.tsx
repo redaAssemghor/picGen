@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { updatePoints } from "../store/featurs/pointsSlice";
 import Image from "next/image";
+import Link from "next/link";
 
 const PointsBtn = () => {
   const [loading, setLoading] = useState(true);
@@ -52,29 +53,30 @@ const PointsBtn = () => {
   return (
     <div>
       <button
+        type="button"
         onClick={handlePopUp} // Fixed typo in function name
         className="flex justify-center items-center gap-1 p-3 rounded-xl bg-[--black]"
       >
         <TbStack3 />
-        {loading && isSignedIn ? "Loading..." : `${points} remaining`}
+        {loading && isSignedIn ? "Loading..." : `${points} credits`}
       </button>
       {
         <div>
           <dialog id="my_modal_3" className="modal">
             <div className="modal-box flex flex-col justify-between lg:h-[600px] lg:w-[400px] overflow-hidden">
               <div>
-                <form method="dialog">
-                  <button className="p-2 border-white border-[0.1px] btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                <div>
+                  <button type="button" aria-label="Close credits dialog" onClick={() => (document.getElementById("my_modal_3") as HTMLDialogElement)?.close()} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                     ✕
                   </button>
-                </form>
+                </div>
                 <div>
-                  <h3 className="font-bold text-lg">Hello!</h3>
+                  <h3 className="font-bold text-lg">Keep creating</h3>
                   <p className="py-4">
-                    by clicking on the button below you can buy more points
+                    Explore plans to add more credits to your studio.
                   </p>
 
-                  <button className="btn btn-sm">Buy Points</button>
+                  <Link href="/pricing" className="button button-primary">Explore plans</Link>
                 </div>
               </div>
               <div className="hidden lg:block -mb-14 -mx-7">

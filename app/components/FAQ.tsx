@@ -1,70 +1,12 @@
-"use client";
-import { useState } from "react";
-import { TiArrowSortedDown } from "react-icons/ti";
-
-const FAQ = () => {
-  const [isOpen, setIsOpen] = useState<number | null>(null);
-
-  const toggleFAQ = (index: number) => {
-    setIsOpen((prev) => (prev === index ? null : index));
-  };
-  const faqs = [
-    {
-      question: "What is an AI text-to-image app?",
-      answer:
-        "Our AI text-to-image app allows users to input text descriptions, and the app will generate an image based on that description using models like DALL·E 3 and Stable Diffusion.",
-    },
-    {
-      question: "How do I generate images using DALL·E 3 or Stable Diffusion?",
-      answer:
-        "Simply enter a detailed text prompt describing the image you want. You can choose which model to use, and the app will generate the corresponding image.",
-    },
-    {
-      question:
-        "What are the differences between DALL·E 3 and Stable Diffusion?",
-      answer:
-        "DALL·E 3 tends to generate more creative and artistic images, while Stable Diffusion is often faster and excels at generating more photorealistic results. You can experiment with both to see which fits your needs.",
-    },
-    {
-      question: "Are there limits to how many images I can generate?",
-      answer:
-        "Currently, the app allows users to generate a limited number of images per day. Premium users can enjoy additional image generations and faster processing times.",
-    },
-  ];
-
-  return (
-    <div className="custom-radial-bot flex flex-col lg:flex-row lg:p-40 p-4 gap-5 text-[--light]">
-      <div className="flex-1">
-        <h1 className="lg:text-4xl text-xl font-bold mb-8">
-          Have questions? We have answers!
-        </h1>
-      </div>
-      <div className="lg:space-y-6 space-y-2 flex-1">
-        {faqs.map((faq, index) => (
-          <div key={index} className="bg-black rounded-3xl p-5">
-            <div
-              onClick={() => toggleFAQ(index)}
-              className="cursor-pointer flex justify-between gap-4 mb-5"
-            >
-              <h2 className="lg:text-base text-sm font-semibold">
-                {faq.question}
-              </h2>
-              <TiArrowSortedDown />
-            </div>
-            <p
-              className={`text-gray-600 transition-all duration-500 text-xs lg:text-base ${
-                isOpen === index
-                  ? "max-h-[100px] opacity-100"
-                  : "max-h-0 opacity-0"
-              }`}
-            >
-              {faq.answer}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default FAQ;
+const faqs = [
+  { question: "How do I create my first image?", answer: "Sign in to get 50 starter credits. Open Create, describe your idea, choose a model and style, then generate. Each image uses 5 credits." },
+  { question: "Which models can I use?", answer: "Z-Image Turbo is our default for detailed images. FLUX.1 Schnell is another option for creative exploration. Both use the Apache 2.0 license." },
+  { question: "Where are my images saved?", answer: "Your creations are saved to your private account library. Download an image, mark it as a favorite, or reuse its prompt and settings whenever you want." },
+  { question: "What happens if generation fails?", answer: "Failed attempts are refunded. If a connection is interrupted, check your library or retry with the same settings. Interrupted server jobs are recovered when you revisit the studio after five minutes." },
+  { question: "Is this a subscription?", answer: "No. You start with welcome credits and can purchase one-time credit packs. There are no recurring charges. Hosted AI inference uses compute, so an open-source model does not mean unlimited free generation." },
+];
+export default function FAQ() {
+  return <section className="shell section-space faq-layout"><div className="section-heading"><span className="eyebrow">GOOD TO KNOW</span><h2>A few answers<br />before you create.</h2></div><div className="faq-list">{faqs.map(faq =>
+    <details key={faq.question}><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>
+  )}</div></section>;
+}

@@ -1,45 +1,4 @@
 import { NextResponse } from "next/server";
-import { getUser, updateUserPoints } from "@/app/lib/actions/action";
-
-export async function POST(req: Request) {
-  try {
-    const body = await req.json();
-    const id = body.id;
-
-    if (!id) {
-      return NextResponse.json(
-        { error: "User ID is missing" },
-        { status: 400 }
-      );
-    }
-
-    const user = await getUser({ id });
-
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
-    if (user.points < 5) {
-      return NextResponse.json(
-        { error: "User does not have enough points" },
-        { status: 400 }
-      );
-    }
-
-    const updatedUser = await updateUserPoints({ id });
-
-    if (!updatedUser) {
-      return NextResponse.json(
-        { error: "Error updating user points" },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ points: updatedUser.points });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Error fetching user points" },
-      { status: 500 }
-    );
-  }
+export async function POST() {
+  return NextResponse.json({ error: "Credits are managed automatically during generation." }, { status: 410 });
 }

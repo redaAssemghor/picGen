@@ -25,8 +25,32 @@ model User {
 
 model Subscription {
   id     String  @id @default(cuid()) @map("_id") @db.ObjectId
+  paymentIntentId String? @unique
   amount Int
   status String?
   userId String  @unique
   user   User    @relation(fields: [userId], references: [id])
+}
+
+model Generation {
+  id        String   @id @map("_id")
+  userId    String
+  prompt    String
+  model     String
+  ratio     String
+  style     String
+  seed      Int
+  status    String
+  image     String?
+  mimeType  String?
+  favorite  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  @@index([userId, status, createdAt])
+}
+
+model CreditPurchase {
+  id        String   @id @map("_id")
+  userId    String
+  credits   Int
+  createdAt DateTime @default(now())
 }

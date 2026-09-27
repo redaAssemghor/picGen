@@ -1,40 +1,32 @@
+"use client";
+import Image from "next/image";
 import Link from "next/link";
-import { FaWandMagicSparkles } from "react-icons/fa6";
+import { ArrowUpRight, ArrowRight, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-const Hero = () => {
-  return (
-    <div className="h-screen flex justify-center items-center px-4 relative z-50 custom-radial">
-      <div className="text-center max-w-3xl mx-auto space-y-6 bg-custom-radial">
-        <h1 className="text-2xl font-extrabold tracking-widest text-gray-700">
-          Unlock Your Creativity
-        </h1>
-        <h2 className="text-6xl uppercase md:text-8xl font-extrabold tracking-wide bg-gradient-to-r from-[--voilet] to-[--light-blue] text-transparent bg-clip-text">
-          Image Editor
-        </h2>
-
-        <h3 className="text-lg sm:text-xl font-extrabold tracking-wider text-[--light]">
-          Effortless Design and Stunning Visuals with AI
-        </h3>
-        <p className="text-base sm:text-lg md:text-xl font-medium tracking-wide text-[--light]">
-          Create, enhance, and edit your images in seconds with our powerful AI
-          tools. Whether you&apos;re at home or on the go, our free,
-          browser-based editor empowers your creativity with ease.
-        </p>
-
-        <div className="flex justify-center">
-          <Link
-            href="/generatepage"
-            className="rounded-full transition duration-500 ease-in-out shadow-lg hover:bg-[--light-blue] hover:shadow-neon"
-          >
-            <h1 className="bg-gray-700 px-8 py-3 flex gap-2 items-center rounded-full font-bold border border-[--voilet] text-lg">
-              <FaWandMagicSparkles />
-              Get Started with AI
-            </h1>
-          </Link>
-        </div>
-      </div>
+export default function Hero() {
+  const [prompt, setPrompt] = useState("");
+  const router = useRouter();
+  return <section className="hero-v2 shell">
+    <div className="hero-copy">
+      <span className="eyebrow"><span className="status-dot" /> A STUDIO FOR YOUR IMAGINATION</span>
+      <h1>You imagine.<br />We make it<br /><span>an image.</span></h1>
+      <p>From the first spark to the final detail. Create original visuals with powerful open-source AI, in a space made for exploring.</p>
+      <form className="hero-prompt" onSubmit={event => { event.preventDefault(); router.push("/generatepage" + (prompt.trim() ? "?prompt=" + encodeURIComponent(prompt.trim()) : "")); }}>
+        <label htmlFor="hero-prompt" className="sr-only">Describe your first image</label>
+        <Sparkles size={19} aria-hidden="true" />
+        <input id="hero-prompt" value={prompt} onChange={event => setPrompt(event.target.value)} maxLength={1500} placeholder="A little idea goes a long way…" />
+        <button type="submit" aria-label="Create this image"><ArrowRight size={20} /></button>
+      </form>
+      <div className="hero-under"><span>50 starter credits · 5 credits per image</span><Link href="#explore">Get inspired <ArrowUpRight size={14} /></Link></div>
     </div>
-  );
-};
-
-export default Hero;
+    <div className="hero-art" aria-label="Creative inspiration">
+      <div className="hero-art-label"><Sparkles size={14} /> YOUR NEXT “WHAT IF” STARTS HERE</div>
+      <div className="hero-main-image"><Image src="/hero-z-image.png" alt="Lavender glass vase generated with Z-Image Turbo" fill priority sizes="(max-width: 800px) 90vw, 45vw" /></div>
+      <div className="hero-small-image"><Image src="/dalle-imgs/img01.webp" alt="Another creative direction to explore" fill sizes="(max-width: 800px) 35vw, 18vw" /></div>
+      <div className="hero-art-note"><span className="status-dot" /><div><strong>Made with Z-Image Turbo.</strong><span>A real image from our studio.</span></div></div>
+      <span className="hero-orbit" aria-hidden="true">✳</span>
+    </div>
+  </section>;
+}

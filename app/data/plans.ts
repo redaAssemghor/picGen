@@ -18,8 +18,8 @@ export type Plan = {
 export const premiumPlan: Plan = {
   name: "Premium",
   description:
-    "Full access to all the premium features across all platforms with a generous amount of AI credits.",
-  features: ["Ad-Free", "Unlimited saves", "100 monthly AI Credits"],
+    "More room to explore your most ambitious ideas.",
+  features: ["Ad-free experience", "Unlimited saves", "100 monthly credits"],
   prevPrice: "$19.99",
   price: "$9.99",
   discount: "50% off",
@@ -31,8 +31,8 @@ export const premiumPlan: Plan = {
 export const plusPlan: Plan = {
   name: "Plus",
   description:
-    "Access to most premium features with a substantial amount of AI credits.",
-  features: ["Ad-Free", "Unlimited saves", "80 monthly AI Credits"],
+    "For a regular creative practice and fresh inspiration.",
+  features: ["Ad-free experience", "Unlimited saves", "80 monthly credits"],
   prevPrice: "$14.99",
   price: "$6.99",
   discount: "53% off",
@@ -44,8 +44,8 @@ export const plusPlan: Plan = {
 export const basicPlan: Plan = {
   name: "Basic",
   description:
-    "Essential features for getting started, with a basic amount of AI credits.",
-  features: ["Ad-Free", "Unlimited saves", "40 monthly AI Credits"],
+    "A simple starting point for your next creative idea.",
+  features: ["Ad-free experience", "Unlimited saves", "40 monthly credits"],
   prevPrice: "$9.99",
   price: "$3.99",
   discount: "60% off",
