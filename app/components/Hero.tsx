@@ -23,8 +23,8 @@ export default function Hero() {
     </div>
     <div className="hero-art" aria-label="Creative inspiration">
       <div className="hero-art-label"><Sparkles size={14} /> YOUR NEXT “WHAT IF” STARTS HERE</div>
-      <div className="hero-main-image"><Image src="/hero-z-image.png" alt="Lavender glass vase generated with Z-Image Turbo" fill priority sizes="(max-width: 800px) 90vw, 45vw" /></div>
-      <div className="hero-small-image"><Image src="/dalle-imgs/img01.webp" alt="Another creative direction to explore" fill sizes="(max-width: 800px) 35vw, 18vw" /></div>
+      <div className="hero-main-image"><Image src="/new/hero-main.webp" alt="AI-generated creative artwork" fill priority sizes="(max-width: 800px) 90vw, 45vw" /></div>
+      <div className="hero-small-image"><Image src="/new/hero-detail.webp" alt="A second AI-generated creative direction" fill sizes="(max-width: 800px) 35vw, 18vw" /></div>
       <div className="hero-art-note"><span className="status-dot" /><div><strong>Made with Z-Image Turbo.</strong><span>A real image from our studio.</span></div></div>
       <span className="hero-orbit" aria-hidden="true">✳</span>
     </div>
