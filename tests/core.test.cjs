@@ -187,3 +187,38 @@ test("signup signature uses raw body and duplicate delivery never resets credits
     assert.equal(await points(), 15);
   } finally { process.env.WEBHOOK_SECRET = original; }
 });
+
+test("public localhost origin is accepted behind a wildcard listen address", () => {
+  const { validateJsonMutation } = load("lib/request.ts");
+  const previous = process.env.NEXT_PUBLIC_APP_URL;
+  process.env.NEXT_PUBLIC_APP_URL = "http://localhost:3000";
+  try {
+    const localRequest = new Request("http://0.0.0.0:3000/api/fetchImg", {
+      method: "POST", headers: { Origin: "http://localhost:3000", "Content-Type": "application/json" }, body: "{}",
+    });
+    assert.equal(validateJsonMutation(localRequest), null);
+    for (const origin of ["https://untrusted.example", "http://localhost:3001", "http://localhost.attacker.example:3000", "null"]) {
+      const untrusted = new Request(localRequest.url, { method: "POST", headers: { Origin: origin, "Content-Type": "application/json" }, body: "{}" });
+      assert.equal(validateJsonMutation(untrusted).status, 403);
+    }
+  } finally {
+    if (previous === undefined) delete process.env.NEXT_PUBLIC_APP_URL;
+    else process.env.NEXT_PUBLIC_APP_URL = previous;
+  }
+});
+test("configured HTTPS public origin is accepted without trusting forwarded headers", () => {
+  const { validateJsonMutation } = load("lib/request.ts");
+  const previous = process.env.NEXT_PUBLIC_APP_URL;
+  process.env.NEXT_PUBLIC_APP_URL = "https://picgen.example";
+  try {
+    const makeRequest = origin => new Request("http://internal:3000/api/checkout", { method: "POST", headers: { Origin: origin, "Content-Type": "application/json", "X-Forwarded-Host": "untrusted.example" }, body: "{}" });
+    assert.equal(validateJsonMutation(makeRequest("https://picgen.example")), null);
+    assert.equal(validateJsonMutation(makeRequest("https://untrusted.example")).status, 403);
+    assert.equal(validateJsonMutation(makeRequest("http://picgen.example")).status, 403);
+    process.env.NEXT_PUBLIC_APP_URL = "not a URL";
+    assert.equal(validateJsonMutation(makeRequest("https://untrusted.example")).status, 403);
+  } finally {
+    if (previous === undefined) delete process.env.NEXT_PUBLIC_APP_URL;
+    else process.env.NEXT_PUBLIC_APP_URL = previous;
+  }
+});

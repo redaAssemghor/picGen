@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
+import InspirationGallery from "./InspirationGallery";
 import Link from "next/link";
 import { useAuth, SignInButton } from "@clerk/nextjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Download, Heart, Images, RefreshCw, X, ArrowUpRight } from "lucide-react";
 import { Creation, MODELS } from "@/lib/generation";
 
-export default function Gallery({ refresh = 0, compact = false }: { refresh?: number; compact?: boolean }) {
+function UserGallery({ refresh = 0, compact = false }: { refresh?: number; compact?: boolean }) {
   const { isLoaded, isSignedIn, userId } = useAuth();
   const [images, setImages] = useState<Creation[]>([]);
   const [favorites, setFavorites] = useState(false);
@@ -62,4 +63,8 @@ export default function Gallery({ refresh = 0, compact = false }: { refresh?: nu
       {selected && <><button className="dialog-close" aria-label="Close preview" onClick={() => setSelected(null)}><X size={22} /></button><Image src={"/api/images/" + selected.id} alt={selected.prompt} width={1024} height={1024} unoptimized /><div className="dialog-details"><p>{selected.prompt}</p><span>{MODELS[selected.model as keyof typeof MODELS]?.name} · {selected.ratio} · Seed {selected.seed}</span><div className="studio-tools"><a className="button button-primary" href={"/api/images/" + selected.id + "?download=1"}><Download size={16} />Download</a><Link className="button button-secondary" href={"/generatepage?" + new URLSearchParams({ prompt: selected.prompt, model: selected.model, ratio: selected.ratio, style: selected.style, seed: String(selected.seed) })} onClick={() => setSelected(null)}>Reuse prompt <ArrowUpRight size={16} /></Link></div></div></>}
     </dialog>
   </section>;
+}
+
+export default function Gallery({ refresh = 0, compact = false }: { refresh?: number; compact?: boolean }) {
+  return compact ? <InspirationGallery /> : <UserGallery refresh={refresh} />;
 }
