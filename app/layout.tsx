@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Picgen — Your imagination, beautifully rendered",
   description: "Turn your ideas into images with Picgen, a creative studio powered by Z-Image Turbo and FLUX.1 Schnell.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
