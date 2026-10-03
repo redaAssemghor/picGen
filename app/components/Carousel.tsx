@@ -1,18 +1,20 @@
 import Image from "next/image";
-const images = [
-  { src: "/hero-z-image.png", label: "Everyday, reimagined" },
-  { src: "/carousel/img22.webp", label: "A different perspective" },
-  { src: "/carousel/img06.webp", label: "Limitless possibilities" },
-  { src: "/dalle-imgs/img01.webp", label: "Worlds beyond the ordinary" },
-];
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { inspiration, inspirationHref } from "@/lib/inspiration";
+
 export default function Carousel() {
-  return <section id="explore" className="shell showcase" aria-label="Image inspiration">
-    <div className="section-caption"><span>A LITTLE INSPIRATION</span><span>Imagine what you could make</span></div>
-    <div className="showcase-grid">{images.map((image, index) =>
-      <figure className="showcase-card" key={image.src}>
-        <Image src={image.src} alt={image.label} width={500} height={600} priority={index < 2} sizes="(max-width: 640px) 45vw, 25vw" />
-        <figcaption><span>0{index + 1}</span>{image.label}</figcaption>
-      </figure>
-    )}</div>
-  </section>;
+  return (
+    <section id="explore" className="shell showcase" aria-label="Image inspiration">
+      <div className="section-caption"><span>A LITTLE INSPIRATION</span><span>Find a starting point. Make it yours.</span></div>
+      <div className="showcase-grid">
+        {inspiration.slice(1, 5).map((item, index) => (
+          <Link href={inspirationHref(item.prompt)} className="showcase-card" key={item.file} style={{ aspectRatio: index % 2 ? "3 / 4" : "4 / 5" }}>
+            <Image src={"/new/" + item.file + ".webp"} alt={item.title} width={500} height={800} sizes="(max-width: 640px) 45vw, 25vw" />
+            <span className="showcase-caption">{item.title}<ArrowUpRight size={16} /></span>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
 }
