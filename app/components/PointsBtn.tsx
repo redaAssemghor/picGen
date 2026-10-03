@@ -5,7 +5,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { updatePoints } from "../store/featurs/pointsSlice";
-import Image from "next/image";
+
 import Link from "next/link";
 
 const PointsBtn = () => {
@@ -48,7 +48,7 @@ const PointsBtn = () => {
       }
     };
     fetchPoints();
-  }, [userId]);
+  }, [dispatch, userId]);
 
   return (
     <div>
@@ -79,14 +79,7 @@ const PointsBtn = () => {
                   <Link href="/pricing" className="button button-primary">Explore plans</Link>
                 </div>
               </div>
-              <div className="hidden lg:block -mb-14 -mx-7">
-                <Image
-                  src={"/robot.webp"}
-                  alt="hero"
-                  width={402}
-                  height={400}
-                />
-              </div>
+
             </div>
           </dialog>
         </div>

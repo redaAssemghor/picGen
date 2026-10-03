@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { ToggleLoading } from "../store/featurs/loadingSlice";
@@ -13,7 +13,7 @@ const Dalle = () => {
 
   const dispatch = useDispatch();
 
-  const handleFetch = async () => {
+  const handleFetch = useCallback(async () => {
     try {
       dispatch(ToggleLoading());
       const requests = Array.from({ length: 1 }, () =>
@@ -40,13 +40,13 @@ const Dalle = () => {
     } finally {
       dispatch(ToggleLoading());
     }
-  };
+  }, [dispatch, prompt]);
 
   useEffect(() => {
     if (prompt !== "" && model === "dalle 3") {
       handleFetch();
     }
-  }, [prompt]);
+  }, [handleFetch, model, prompt]);
 
   return (
     <div className="my-10 flex md:flex-row flex-col gap-2 w-full justify-center items-center overflow-hidden">

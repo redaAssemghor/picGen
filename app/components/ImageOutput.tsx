@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { addImageUrl } from "../store/featurs/imagesUrlSlice";
@@ -21,7 +21,7 @@ const ImageOutput = () => {
 
   const dispatch = useDispatch();
 
-  const fetchImage = async () => {
+  const fetchImage = useCallback(async () => {
     try {
       if (points < 5) {
         setError("Not enough credits. Explore plans to keep creating.");
@@ -49,7 +49,7 @@ const ImageOutput = () => {
     } finally {
       dispatch(stopLoading());
     }
-  };
+  }, [dispatch, negativePrompt, points, prompt]);
 
   useEffect(() => {
     if (prompt !== "") {
@@ -59,7 +59,7 @@ const ImageOutput = () => {
     return () => {
       dispatch(stopLoading());
     };
-  }, [prompt]);
+  }, [dispatch, fetchImage, prompt]);
 
   return (
     <div className="flex flex-col gap-4 bg-[--black] rounded-lg my-10 p-5">

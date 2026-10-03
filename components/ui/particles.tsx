@@ -74,27 +74,31 @@ const Particles: React.FC<ParticlesProps> = ({
   const mousePosition = MousePosition();
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
+  const initCanvasRef = useRef<() => void>(() => undefined);
+  const onMouseMoveRef = useRef<() => void>(() => undefined);
+  const animateRef = useRef<() => void>(() => undefined);
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 
   useEffect(() => {
     if (canvasRef.current) {
       context.current = canvasRef.current.getContext("2d");
     }
-    initCanvas();
-    animate();
-    window.addEventListener("resize", initCanvas);
+    const handleResize = () => initCanvasRef.current();
+    initCanvasRef.current();
+    animateRef.current();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", initCanvas);
+      window.removeEventListener("resize", handleResize);
     };
   }, [color]);
 
   useEffect(() => {
-    onMouseMove();
+    onMouseMoveRef.current();
   }, [mousePosition.x, mousePosition.y]);
 
   useEffect(() => {
-    initCanvas();
+    initCanvasRef.current();
   }, [refresh]);
 
   const initCanvas = () => {
@@ -265,8 +269,12 @@ const Particles: React.FC<ParticlesProps> = ({
         // update the circle position
       }
     });
-    window.requestAnimationFrame(animate);
+    window.requestAnimationFrame(() => animateRef.current());
   };
+
+  initCanvasRef.current = initCanvas;
+  onMouseMoveRef.current = onMouseMove;
+  animateRef.current = animate;
 
   return (
     <div className={className} ref={canvasContainerRef} aria-hidden="true">
