@@ -8,7 +8,7 @@ import { ensureAccount } from "@/app/lib/account";
 import { CreditError, recoverExpired, refund, reserve } from "@/app/lib/credits";
 
 export const runtime = "nodejs";
-export const maxDuration = 120;
+export const maxDuration = 60;
 export async function POST(request: Request) {
   const invalid = validateJsonMutation(request); if (invalid) return invalid;
   const { userId } = auth();
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         provider: "fal-ai",
         inputs: modelPrompt(input),
         parameters: { image_size: { width: RATIOS[input.ratio].width, height: RATIOS[input.ratio].height }, seed: input.seed, num_images: 1, output_format: "png" },
-      }, { signal: AbortSignal.timeout(90_000), retry_on_error: false });
+      }, { signal: AbortSignal.timeout(55_000), retry_on_error: false });
       if (!["image/png", "image/jpeg", "image/webp"].includes(blob.type) || blob.size > 8 * 1024 * 1024 || !blob.size) throw new Error("Invalid provider image.");
       const data = Buffer.from(await blob.arrayBuffer()).toString("base64");
       const updated = await prisma.generation.updateMany({ where: { id: input.requestId, userId, status: "pending" }, data: { image: data, mimeType: blob.type, status: "completed" } });
